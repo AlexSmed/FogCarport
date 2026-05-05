@@ -1,14 +1,109 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Frontpage</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-</head>
+    <title>Arrow Video Page</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
 
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        iframe {
+            border: none;
+            width: 560px;
+            height: 315px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            border-radius: 12px;
+        }
+
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #00ffcc;
+            opacity: 0.8;
+            transform-origin: center;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -2px;
+            width: 4px;
+            height: 20px;
+            background: #00ffcc;
+        }
+    </style>
+</head>
 <body>
-<h1>Welcome to the Javalin / Thymeleaf demo</h1>
-<p>This is your first web application in this world</p>
+<div class="container" id="container"></div>
+
+<div class="center">
+    <iframe src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" allowfullscreen></iframe>
+</div>
+
+<script>
+    const container = document.getElementById('container');
+    const numArrows = 80;
+
+    function createArrows() {
+        container.innerHTML = '';
+
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        for (let i = 0; i < numArrows; i++) {
+            const arrow = document.createElement('div');
+            arrow.className = 'arrow';
+
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 600 + 100;
+
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+
+            arrow.style.left = x + 'px';
+            arrow.style.top = y + 'px';
+
+            const dx = centerX - x;
+            const dy = centerY - y;
+
+            const rotation = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+
+            arrow.style.transform = `rotate(${rotation}deg)`;
+
+            container.appendChild(arrow);
+        }
+    }
+
+    createArrows();
+
+    window.addEventListener('resize', createArrows);
+</script>
 </body>
 </html>
