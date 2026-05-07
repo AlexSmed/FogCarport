@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+object komponenter
+object kunde
+object remmer
+object spær
+object stolper
+object pris
+object stykliste
+object dækprocent
+object carport
+object administrator
+object beslag
+object bolte
+object skruer
+object skur
+object tag
+object tegning
+object forespørgelse
+object balance
+object betaling
+object bekræftelse
+object login
+object tagsten
+object carportmål
+object levering
+object afhenting
+spær --> komponenter
+remmer --> komponenter
+stolper --> komponenter
+beslag --> komponenter
+bolte --> komponenter
+skruer --> komponenter
+tagsten --> tag
+
+login --> kunde
+login --> administrator
+komponenter --> carport
+tag --> komponenter
+skur --> komponenter
+carport--> tegning
+komponenter --> stykliste
+kunde --> carportmål
+carportmål --> forespørgelse
+forespørgelse --> tegning
+tegning --> bekræftelse
+bekræftelse --> pris
+pris --> dækprocent
+pris --> betaling
+betaling --> stykliste
+balance --> kunde
+stykliste --> afhenting
+stykliste --> levering
+
+
+@enduml
