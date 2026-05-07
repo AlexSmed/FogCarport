@@ -1,0 +1,133 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class Bruger{
+- int BrugerId
+- String fornavn
+- String efternavn
+- String email
+- String password
+}
+
+
+class Materiale{
+- int MaterialeId
+- String navn
+- String vareBeskrivelse
+- String hjælpeTekst
+- int længde
+- int bredde
+- int højde
+}
+class Forespørgsel{
+- int forespørgselsId
+- int brugerId
+- int carportId
+- int pris
+- boolean erBetalt
+}
+
+class Stykliste{
+- int userId
+- ArrayList<Materiale> materialer
+- int carportId
+}
+class Carport{
+ - int carport_id
+ - String tagtype
+ - int carport_bredde
+ - int carport_længde
+ - boolean redskabsrum
+ - int redskabs_bredde
+ - int redskabs_længde
+ - int stykListe_id
+}
+class Main{
++ static void main()
+}
+
+class BrugerController{
++ static void login()
++ static void signup()
+}
+class CarportController{
+
+}
+class StyklisteController{
++ Stykliste createStykliste(List<Matriale> materilaer, Carport carport, Forespørgsel forespørgsel)
+}
+class OrdrelinjeController{
+}
+class ForespørgselsController{
+
+
+}
+
+class OrdrelinjeMapper{
+    + List<Ordrelinje> getAllOrdrelinjer()
+
+}
+class ForespørgselsMapper{
+    +List<Forespørgsel> getAllForespørgelser()
+    + Forespørgsel createForespørgsel
+    (int forespørgelsesId, int BrugerId, int carportId, int pris)
+    + void updateErBetalt(Forespørgsel forespørgsel, boolean erBetalt)
+    + void deleteForespørgsel(Forespørgsel forespørgsel)
+    + List<Forespørgsel> getAllPaidForespørgsler()
+    + List <Forespørgsel> getAllUnPaidForespørgsler()
+
+}
+class CarportMapper{
++ List<Carport> getAllCarport()
++ Carport createCarportUdenRedskabsRum
+(String tagtype, int carport_bredde, int carport_længde)
++ Carport genererCarportMedRedskabsRum(String tagtype, int carport_bredde, int carport_længde,
+boolean redskabsrum, int redskabs_bredde, int redskabs_længde)
+
+}
+class BrugerMapper{
++ static void login(String email, String password)
++ static void signup(String email, String password, String firstname, String lastname)
+}
+class StyklisteMapper{
+}
+class SendMail{
+- String message
+- String modtager
+- String afsender
++ void SendMail(SendMail sendMail)
+}
+
+
+BrugerController --> Main
+StyklisteController --> Main
+CarportController --> Main
+ForespørgselsController --> Main
+OrdrelinjeController --> Main
+Bruger --> BrugerController
+Bruger --> BrugerMapper
+
+Stykliste --> StyklisteMapper
+Stykliste  --> StyklisteController
+
+Carport --> CarportController
+Carport --> CarportMapper
+
+Forespørgsel --> ForespørgselsController
+Forespørgsel --> ForespørgselsMapper
+
+Ordrelinje --> OrdrelinjeController
+Ordrelinje --> OrdrelinjeMapper
+
+Materiale --> Carport
+Bruger --> Carport
+Bruger --> Forespørgsel
+Carport --> Forespørgsel
+Forespørgsel --> SendMail
+SendMail --> Stykliste
+Forespørgsel --> Stykliste
+
+
+
+@enduml
