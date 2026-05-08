@@ -16,6 +16,7 @@ public class UserMapper {
 
     public UserMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
+        //E
     }
 
     public static Users login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
