@@ -1,172 +1,63 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-    <meta charset="UTF-8" />
-    <title>Fog Carport Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
+    <meta charset="UTF-8">
+    <title>Fog Login</title>
 
-        /* Header styles */
-        .header {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .header button {
-            margin-right: 10px;
-            padding: 8px 12px;
-            border: none;
-            background-color: #fff;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: background-color 0.2s;
-        }
-
-        .header button:hover {
-            background-color: #e0e0e0;
-        }
-
-        /* Main content styles */
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 60px);
-        }
-
-        /* Form box styles */
-        .form-box {
-            background-color: #d3d3d3; /* Light gray background */
-            padding: 20px;
-            border-radius: 8px;
-            width: 300px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        .form-box h2 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        select {
-            width: 100%;
-            padding: 6px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-
-        /* Submit button styles */
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #3399ff; /* Blue color */
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .submit-btn:hover {
-            background-color: #0077ff;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
-<!-- Header with buttons -->
-<!-- Header with logo and buttons -->
-<div class="header">
-    <img src="img/Fog.png" class="logo" />
-    <button>Indtast egne mål for carport</button>
-    <button>Se mine ordre</button>
-    <button>Log ind</button>
-</div>
+
+<header>
+    <div class="header">
+        <div class="logoplace">
+            <a th:href="@{/index}">
+                <img src="/img/Fog.png" class="logoSize">
+            </a>
+        </div>
+
+    </div>
+
+    <ul class="menu">
+        <div class="left">
+            <li><a th:href="@{/login}"> Login </a></li>
+            <li><a th:href="@{/createAccount}"> Opret bruger </a></li>
+        </div>
+
+        </div>
+
+    </ul>
 
 
-<!-- Main container -->
-<div class="container">
-    <div class="form-box">
-        <h2>Carport med fladt tag</h2>
-        <p>Indtast dine ansøgte mål til din carport og indsend din forespørgsel, og så vil vi hurtigst muligt vende tilbage med et tilbud til dig</p>
-        <form>
-            <div class="form-group">
-                <label for="length">Carport længde</label>
-                <select id="length" name="length">
-                    <option value="">Vælg længde</option>
-                    <option value="300">240 cm</option>
-                    <option value="400">270 cm</option>
-                    <option value="300">300 cm</option>
-                    <option value="400">330 cm</option>
-                    <option value="500">360 cm</option>
-                    <option value="300">390 cm</option>
-                    <option value="400">420 cm</option>
-                    <option value="500">450 cm</option>
-                    <option value="300">480 cm</option>
-                    <option value="400">510 cm</option>
-                    <option value="500">540 cm</option>
-                    <option value="300">570 cm</option>
-                    <option value="400">600 cm</option>
-                    <option value="500">630 cm</option>
-                    <option value="300">660 cm</option>
-                    <option value="400">690 cm</option>
-                    <option value="500">720 cm</option>
-                    <option value="300">750 cm</option>
-                    <option value="400">780 cm</option>
-                    <!-- Add more options as needed -->
-                </select>
+</header>
+<main>
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <form th:action="@{/login}" method="post">
+
+            <p th:text="${msg}"></p>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
             </div>
-            <div class="form-group">
-                <label for="width">Carport bredde</label>
-                <select id="width" name="width">
-                    <option value="">Vælg bredde</option>
-                    <option value="300">240 cm</option>
-                    <option value="400">270 cm</option>
-                    <option value="300">300 cm</option>
-                    <option value="400">330 cm</option>
-                    <option value="500">360 cm</option>
-                    <option value="300">390 cm</option>
-                    <option value="400">420 cm</option>
-                    <option value="500">450 cm</option>
-                    <option value="300">480 cm</option>
-                    <option value="400">510 cm</option>
-                    <option value="500">540 cm</option>
-                    <option value="300">570 cm</option>
-                    <option value="400">600 cm</option>
-                    <option value="500">630 cm</option>
-                    <option value="300">660 cm</option>
-                    <option value="400">690 cm</option>
-                    <option value="500">720 cm</option>
-                    <option value="300">750 cm</option>
-                    <option value="400">780 cm</option>
-                    <!-- Add more options as needed -->
-                </select>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit" class="submit-btn">Indsend forespørgsel</button>
+
+            <button type="submit">Login</button>
+
         </form>
     </div>
-</div>
+
+
+</main>
 
 </body>
+
 </html>
+
