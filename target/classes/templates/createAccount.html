@@ -35,11 +35,9 @@
         <h2>Opret Bruger</h2>
 
         <form th:action="@{/createAccount}" method="post">
-
             <p th:text="${msg}"></p>
-
             <div class="input-group">
-                <label for="firstname">Navn</label>
+                <label for="firstname">Fornavn</label>
                 <input type="text" id="firstname" name="firstname" required>
             </div>
             <div class="input-group">
@@ -48,13 +46,13 @@
             </div>
 
             <div class="input-group">
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
             </div>
 
             <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
             </div>
 
             <button type="submit">Opret bruger</button>

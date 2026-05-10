@@ -33,8 +33,9 @@ public class UserController {
     public static void createAccount(Context ctx, ConnectionPool connectionPool) {
         String firstname = ctx.formParam("firstname");
         String lastname = ctx.formParam("lastname");
-        String password = ctx.formParam("password");
         String email = ctx.formParam("email");
+        String password = ctx.formParam("password");
+
 
         String error = validateUser(firstname, lastname, email, password);
         if (!error.isEmpty()) {
@@ -88,7 +89,7 @@ public class UserController {
     }
 
 
-    public static String validateUser(String firstname, String lastname,  String password, String email) {
+    public static String validateUser(String firstname, String lastname,  String email, String password) {
         if (firstname.isEmpty()) {
             return "Fornavn skal udfyldes";
         }  else if (lastname.isEmpty()) {
