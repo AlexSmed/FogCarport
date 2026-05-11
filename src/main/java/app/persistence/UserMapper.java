@@ -31,7 +31,7 @@ public class UserMapper {
                 if (resultSet.next()) {
                     int id = resultSet.getInt("bruger_id");
                     int balance = resultSet.getInt("saldo");
-                    boolean is_admin = resultSet.getBoolean("is_admin");
+                    boolean is_admin = resultSet.getBoolean("er_admin");
                     return new Users(null, email, password, id, balance, is_admin);
                 } else {
                     return null;
