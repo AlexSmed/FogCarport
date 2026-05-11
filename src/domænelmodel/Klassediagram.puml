@@ -62,8 +62,7 @@ class OrdrelinjeMapper{
 }
 class CarportMapper{
     +List<Carport> getAllCarports()
-    + Carport createCarport
-    (int carportId, int BrugerId, int carportId, int pris)
+    + Carport createCarport (int carportId, int BrugerId, int carportId, int pris)
     + void updateStatus(Carport carport, String status)
     + void deleteOrder(Carport carport)
     + List<Carport> getAllPaidOrders()
