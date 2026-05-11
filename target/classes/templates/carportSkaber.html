@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <title>Fog Carport Form</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+</head>
+<body>
+
+<!-- Header with logo and buttons -->
+<header>
+    <div class="header">
+        <div class="logoplace">
+            <a th:href="@{/index}">
+                <img src="/img/Fog.png" class="logoSize">
+            </a>
+        </div>
+
+
+    </div>
+
+
+    <ul class="menu">
+        <div class="left">
+            <li><a th:href="@{/login}"> Login </a></li>
+            <li><a th:href="@{/createAccount}"> Opret bruger </a></li>
+        </div>
+    </ul>
+
+
+</header>
+
+<!-- Main container -->
+<div class="container">
+    <div class="form-box">
+        <h2>Carport med fladt tag</h2>
+        <p>Indtast dine ansøgte mål til din carport og indsend din forespørgsel, og så vil vi hurtigst muligt vende tilbage med et tilbud til dig</p>
+        <form>
+            <div class="form-group">
+                <label for="length">Carport længde</label>
+                <select id="length" name="length">
+                    <option value="">Vælg længde</option>
+                    <option value="300">240 cm</option>
+                    <option value="400">270 cm</option>
+                    <option value="300">300 cm</option>
+                    <option value="400">330 cm</option>
+                    <option value="500">360 cm</option>
+                    <option value="300">390 cm</option>
+                    <option value="400">420 cm</option>
+                    <option value="500">450 cm</option>
+                    <option value="300">480 cm</option>
+                    <option value="400">510 cm</option>
+                    <option value="500">540 cm</option>
+                    <option value="300">570 cm</option>
+                    <option value="400">600 cm</option>
+                    <option value="500">630 cm</option>
+                    <option value="300">660 cm</option>
+                    <option value="400">690 cm</option>
+                    <option value="500">720 cm</option>
+                    <option value="300">750 cm</option>
+                    <option value="400">780 cm</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="width">Carport bredde</label>
+                <select id="width" name="width">
+                    <option value="">Vælg bredde</option>
+                    <option value="300">240 cm</option>
+                    <option value="400">270 cm</option>
+                    <option value="300">300 cm</option>
+                    <option value="400">330 cm</option>
+                    <option value="500">360 cm</option>
+                    <option value="300">390 cm</option>
+                    <option value="400">420 cm</option>
+                    <option value="500">450 cm</option>
+                    <option value="300">480 cm</option>
+                    <option value="400">510 cm</option>
+                    <option value="500">540 cm</option>
+                    <option value="300">570 cm</option>
+                    <option value="400">600 cm</option>
+                    <option value="500">630 cm</option>
+                    <option value="300">660 cm</option>
+                    <option value="400">690 cm</option>
+                    <option value="500">720 cm</option>
+                    <option value="300">750 cm</option>
+                    <option value="400">780 cm</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <button type="submit" class="submit-btn">Indsend forespørgsel</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

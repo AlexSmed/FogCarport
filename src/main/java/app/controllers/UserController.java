@@ -21,9 +21,6 @@ public class UserController {
         app.post("/createAccount", ctx -> createAccount(ctx, connectionPool));
         app.get("/createAccount", ctx -> ctx.render("createAccount.html"));
 
-        app.get("/aboutUs", ctx -> ctx.render("aboutUs"));
-        app.get("/contactUs", ctx -> ctx.render("contactUs"));
-
         app.get("/logout", ctx -> ctx.render("index.html"));
         app.post("/logout", ctx -> logout(ctx, connectionPool));
 
@@ -73,7 +70,7 @@ public class UserController {
             } else {
                 user = ctx.sessionAttribute("currentUser");
                 ctx.attribute("user", user);
-                ctx.redirect("/orders");
+                ctx.redirect("/carportSkaber");
             }
 
         } catch (DatabaseException e) {
