@@ -2,7 +2,7 @@ package app.persistence;
 
 import app.entities.Carport;
 import app.exception.DatabaseException;
-import org.postgresql.jdbc2.optional.ConnectionPool;
+import app.persistence.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +41,7 @@ public class CarportMapper {
         return carports;
     }
 
-    public static void createCarport(int carport_bredde, int carport_laengde, double pris, String status, int bruger_id, int stykliste_id, app.persistence.ConnectionPool connectionPool) throws DatabaseException {
+    public static void createCarport(int carport_bredde, int carport_laengde, double pris, String status, int bruger_id, int stykliste_id, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "INSERT INTO carport (carport_bredde, carport_laengde, pris, status, bruger_id, stykliste_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = connectionPool.getConnection();
