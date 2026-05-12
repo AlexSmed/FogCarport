@@ -38,7 +38,8 @@
     <div class="form-box">
         <h2>Carport med fladt tag</h2>
         <p>Indtast dine ansøgte mål til din carport og indsend din forespørgsel, og så vil vi hurtigst muligt vende tilbage med et tilbud til dig</p>
-        <form>
+
+        <form method="post">
             <div class="form-group">
                 <label for="length">Carport længde</label>
                 <select id="length" name="length">
@@ -91,7 +92,7 @@
                     <!-- Add more options as needed -->
                 </select>
             </div>
-            <button type="submit" class="submit-btn">Indsend forespørgsel</button>
+            <button type="submit" th:formaction="@{/order}" class="submit-btn">Indsend forespørgsel</button>
         </form>
     </div>
 </div>
