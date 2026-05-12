@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.Carport;
+import app.exception.DatabaseException;
 import org.postgresql.jdbc2.optional.ConnectionPool;
 
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarportMapper {
+
     public List<Carport> getAllCarports(ConnectionPool connectionPool) {
         List<Carport> carports = new ArrayList<>();
         String sql = "SELECT * FROM carports";
@@ -39,4 +41,27 @@ public class CarportMapper {
         return carports;
     }
 
+    public static void createCarport(int carport_bredde, int carport_laengde, double pris, String status, int bruger_id, int stykliste_id, app.persistence.ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "INSERT INTO carport (carport_bredde, carport_laengde, pris, status, bruger_id, stykliste_id) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, carport_bredde);
+            ps.setInt(2, carport_laengde);
+            ps.setDouble(3, pris);
+            ps.setString(4, status);
+            ps.setInt(5, bruger_id);
+            ps.setInt(6, stykliste_id);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1) {
+                throw new DatabaseException("Fejl ved oprettelse af forspørglse");
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke oprette forspørglse", e.getMessage());
+        }
+    }
 }
+
