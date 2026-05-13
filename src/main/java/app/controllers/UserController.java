@@ -15,7 +15,7 @@ public class UserController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/login", ctx -> ctx.render("index.html"));
-        app.post("/login", ctx -> login(ctx, connectionPool));
+        app.post("/login", ctx -> login(ctx));
 
 
         app.post("/createAccount", ctx -> createAccount(ctx, connectionPool));
@@ -50,12 +50,12 @@ public class UserController {
         }
     }
 
-    public static void login(Context ctx, ConnectionPool connectionPool) {
+    public static void login(Context ctx) {
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
 
         try {
-            Users user = UserMapper.login(email, password, connectionPool);
+            Users user = UserMapper.login(email, password);
 
             if (user == null) {
                 ctx.attribute("msg", "Forkert email eller password");
@@ -66,7 +66,7 @@ public class UserController {
             ctx.sessionAttribute("currentUser", user);
 
             if (user.isAdmin()) {
-                ctx.redirect("/adminPageAllOrders");
+                ctx.render("adminPage.html");
             } else {
                 user = ctx.sessionAttribute("currentUser");
                 ctx.attribute("user", user);

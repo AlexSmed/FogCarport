@@ -1,12 +1,14 @@
 package app.controllers;
 
-import app.entities.Stykliste;
+import app.entities.Carport;
 import app.entities.Users;
 import app.exception.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.util.List;
 
 public class CarportController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
@@ -22,7 +24,7 @@ public class CarportController {
           double pris = 0;
           String status = "forspørglse afsendt";
           Users user = ctx.sessionAttribute("currentUser");
-          int bruger_id = user.getUser_id();
+          int bruger_id = user.getBruger_id();
           int stykliste_id = 0;
 
 
@@ -32,4 +34,17 @@ public class CarportController {
           ctx.result("Fejl: " + e.getMessage());
         }
     }
+    private static void getAllOrdersWithUnpaidStatus(Context ctx, ConnectionPool connectionPool) {
+
+        CarportMapper carportMapper = new CarportMapper(connectionPool);
+
+        List<Carport> unPaidCarports = carportMapper.getAllCarportsWithUpaidStatus(connectionPool);
+
+        ctx.attribute("unPaidCarports", unPaidCarports);
+
+        ctx.render("adminPage.html");
+
+
+    }
+
 }
