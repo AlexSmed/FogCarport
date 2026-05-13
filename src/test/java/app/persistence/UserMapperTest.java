@@ -79,7 +79,7 @@ class UserMapperTest {
     @DisplayName("Tester at man kan logge ind")
     void login() throws DatabaseException {
 
-        Users user = userMapper.login("Bobson@gmail.com", "Kode123!!");
+        Users user = userMapper.login("Bobson@gmail.com", "Kode123!!", connectionPool);
         assertNotNull(user);
         assertEquals("Bobson@gmail.com", user.getEmail());
     }
@@ -88,7 +88,7 @@ class UserMapperTest {
     @DisplayName("Tester at bruger skal logg ind med korrekt information")
     void wrongLogin() throws DatabaseException {
 
-        Users user = userMapper.login("Kane@gmail.com", "Kode123¤¤");
+        Users user = userMapper.login("Kane@gmail.com", "Kode123¤¤", connectionPool);
         assertNull(user);
     }
 
@@ -98,7 +98,7 @@ class UserMapperTest {
         userMapper.createUser("Harry", "Kane",
                 "Kane@gmail.com", "Kode123¤¤", connectionPool);
 
-        Users user = userMapper.login("Kane@gmail.com", "Kode123¤¤");
+        Users user = userMapper.login("Kane@gmail.com", "Kode123¤¤", connectionPool);
         assertNotNull(user);
         assertEquals("Kane@gmail.com", user.getEmail());
 

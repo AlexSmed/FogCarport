@@ -18,7 +18,7 @@ public class UserMapper {
         this.connectionPool = connectionPool;
     }
 
-    public static Users login(String email, String password) throws DatabaseException {
+    public static Users login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "SELECT * FROM brugere WHERE email = ? AND kodeord = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
