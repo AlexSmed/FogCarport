@@ -17,5 +17,19 @@ public class Stykliste {
         materialer.add(materiale);
     }
 
+    public int getStyklist_id() {
+        return styklist_id;
+    }
 
+    public void setStyklist_id(int styklist_id) {
+        this.styklist_id = styklist_id;
+    }
+
+    public int getBruger_id() {
+        return bruger_id;
+    }
+
+    public void setBruger_id(int bruger_id) {
+        this.bruger_id = bruger_id;
+    }
 }

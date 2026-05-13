@@ -155,3 +155,49 @@ button {
 button:hover {
     background-color: #2f73df;
 }
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.forsporglse-container {
+    width: 700px;
+    background-color: #d9d9d9;
+
+    padding: 35px 40px;
+
+    border-radius: 3px;
+
+    text-align: center;
+}
+
+/* paragraph spacing */
+.forsporglse-container p {
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* form rows */
+.form-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* labels */
+.form-group label {
+    width: 180px;
+    text-align: right;
+}
+
+/* dropdowns */
+.form-group select {
+    width: 180px;
+    height: 35px;
+}

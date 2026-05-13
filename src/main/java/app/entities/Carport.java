@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class Carport {
     private int carport_id;
     private int carport_bredde;
@@ -73,5 +75,23 @@ public class Carport {
 
     public void setBruger_id(int bruger_id) {
         this.bruger_id = bruger_id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Carport carports = (Carport) o;
+        return carport_id == carports.carport_id &&
+                Objects.equals(carport_bredde, carports.carport_bredde) &&
+                Objects.equals(carport_laengde, carports.carport_laengde) &&
+                Objects.equals(pris, carports.pris) &&
+                Objects.equals(status, carports.status) &&
+                Objects.equals(stykliste_id, carports.stykliste_id) &&
+                Objects.equals(bruger_id, carports.bruger_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(carport_id, carport_bredde, carport_laengde, pris, status, stykliste_id, bruger_id);
     }
 }

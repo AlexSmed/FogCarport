@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.persistence.ConnectionPool;
+
 import java.util.ArrayList;
 
 public class StyklisteController {
@@ -108,5 +110,9 @@ public class StyklisteController {
                 break;
         }
         return closestRemmeLengths;
+    }
+
+    public static void getStykliste(ConnectionPool connectionPool){
+
     }
 }

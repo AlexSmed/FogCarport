@@ -5,6 +5,7 @@ import app.entities.Users;
 import app.exception.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.StyklisteMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -23,6 +24,9 @@ public class CarportController {
           String status = "forspørglse afsendt";
           Users user = ctx.sessionAttribute("currentUser");
           int bruger_id = user.getUser_id();
+
+          StyklisteMapper.createStykliste(bruger_id, connectionPool);
+
           int stykliste_id = 0;
 
 

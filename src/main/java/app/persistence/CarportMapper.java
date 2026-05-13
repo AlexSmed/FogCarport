@@ -15,7 +15,7 @@ public class CarportMapper {
 
     public List<Carport> getAllCarports(ConnectionPool connectionPool) {
         List<Carport> carports = new ArrayList<>();
-        String sql = "SELECT * FROM carports";
+        String sql = "SELECT * FROM carport";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
