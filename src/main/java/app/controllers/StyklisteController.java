@@ -17,7 +17,7 @@ public class StyklisteController {
     }
 
     public double antalSpær(int lengthInCm){
-        double antalSpær = lengthInCm % 50.5;
+        double antalSpær = lengthInCm / 50.5;
         //Denne metode runder op
         antalSpær = Math.ceil(antalSpær);
         return antalSpær;

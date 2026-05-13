@@ -12,13 +12,13 @@ import java.util.List;
 
 public class UserMapper {
 
-    private ConnectionPool connectionPool;
+    private static ConnectionPool connectionPool;
 
     public UserMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
-    public static Users login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
+    public static Users login(String email, String password) throws DatabaseException {
         String sql = "SELECT * FROM brugere WHERE email = ? AND kodeord = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
@@ -29,10 +29,12 @@ public class UserMapper {
 
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
+                    String fornavn = resultSet.getString("fornavn");
+                    String efternavn = resultSet.getString("efternavn");
                     int id = resultSet.getInt("bruger_id");
                     int balance = resultSet.getInt("saldo");
                     boolean is_admin = resultSet.getBoolean("er_admin");
-                    return new Users(null, email, password, id, balance, is_admin);
+                    return new Users(fornavn,efternavn, email, password, id, balance, is_admin);
                 } else {
                     return null;
                 }
@@ -45,7 +47,6 @@ public class UserMapper {
 
     public static void createUser(String firstname,String lastname, String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "INSERT INTO brugere (fornavn, efternavn, email, kodeord) VALUES (?, ?, ?, ?)";
-
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
