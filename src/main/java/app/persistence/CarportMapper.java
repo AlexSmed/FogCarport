@@ -15,7 +15,7 @@ public class CarportMapper {
 
     public List<Carport> getAllCarports(ConnectionPool connectionPool) {
         List<Carport> carports = new ArrayList<>();
-        String sql = "SELECT * FROM carports";
+        String sql = "SELECT * FROM carport";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -61,6 +61,47 @@ public class CarportMapper {
 
         } catch (SQLException e) {
             throw new DatabaseException("Kunne ikke oprette forspørglse", e.getMessage());
+        }
+    }
+
+    public static List<Carport> getAllOrdersByUserId(int brugerId, app.persistence.ConnectionPool connectionPool) {
+        List<Carport> customerOrders = new ArrayList<>();
+        String sql = "SELECT * FROM carport WHERE bruger_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, brugerId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int carport_id = rs.getInt("carport_id");
+                int bredde = rs.getInt("carport_bredde");
+                int laengde = rs.getInt("carport_laengde");
+                double pris = rs.getDouble("pris");
+                String status = rs.getString("status");
+                int stykliste_id = rs.getInt("stykliste_id");
+
+                Carport carport = new Carport(carport_id, bredde, laengde, pris, status, stykliste_id);
+                customerOrders.add(carport);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customerOrders;
+    }
+
+    public static void updateStatus(int carportId, app.persistence.ConnectionPool connectionPool) {
+        String sql = "UPDATE carport SET status = 'BETALT' WHERE carport_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, carportId);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
