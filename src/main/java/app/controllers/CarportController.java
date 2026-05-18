@@ -15,6 +15,9 @@ public class CarportController {
         app.get("/carportSkaber", ctx -> ctx.render("carportSkaber.html"));
 
         app.post("/order", ctx -> orderCarport(ctx, connectionPool));
+
+        app.get("/adminPage", ctx ->
+                CarportController.showAllCarports(ctx, connectionPool));
     }
     public static void orderCarport(Context ctx, ConnectionPool connectionPool){
 
@@ -44,7 +47,16 @@ public class CarportController {
 
         ctx.render("adminPage.html");
 
+    }
+    public static void showAllCarports(Context ctx, ConnectionPool connectionPool)
+    {
+        CarportMapper mapper = new CarportMapper(connectionPool);
 
+        List<Carport> carports = mapper.getAllCarports(connectionPool);
+
+        ctx.attribute("carports", carports);
+
+        ctx.render("adminPage.html");
     }
 
 }

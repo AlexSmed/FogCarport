@@ -13,9 +13,7 @@ public class Stykliste {
         this.bruger_id = bruger_id;
         this.materialer = materialer;
     }
-    public void addToStykliste(Materiale materiale){
-        materialer.add(materiale);
-    }
+
 
 
 }
