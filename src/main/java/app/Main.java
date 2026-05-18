@@ -3,11 +3,9 @@ package app;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.CarportController;
-import app.controllers.StyklisteController;
 import app.controllers.UserController;
-import app.entities.Materiale;
 import app.persistence.ConnectionPool;
-import app.persistence.UserMapper;
+
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
