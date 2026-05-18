@@ -3,6 +3,7 @@ h1 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 3rem;
 }
+
 /* Reset */
 * {
     margin: 0;
@@ -49,13 +50,11 @@ header {
     justify-content: flex-end;
 }
 
-/* Buttons container */
 .left {
     display: flex;
     gap: 20px;
 }
 
-/* Menu buttons */
 .menu li {
     list-style: none;
 }
@@ -93,7 +92,6 @@ main {
     text-align: center;
 }
 
-/* Login title */
 .login-container h2 {
     margin-bottom: 35px;
     font-size: 22px;
@@ -114,7 +112,6 @@ form {
     margin-bottom: 18px;
 }
 
-/* Labels */
 .input-group label {
     width: 100px;
     text-align: right;
@@ -122,7 +119,6 @@ form {
     font-size: 18px;
 }
 
-/* Inputs */
 .input-group input {
     width: 175px;
     height: 32px;
@@ -154,4 +150,64 @@ button {
 
 button:hover {
     background-color: #2f73df;
+}
+
+/* ----------------------------- */
+/*      ORDRE TABEL STYLING      */
+/* ----------------------------- */
+
+.container {
+    width: 88%;
+    margin: 40px auto;
+}
+
+.order-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 16px;
+}
+
+.order-table th {
+    background-color: #e6e6e6;
+    padding: 14px;
+    text-align: left;
+    border-bottom: 2px solid #ccc;
+    font-weight: bold;
+}
+
+.order-table td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-table tr:hover {
+    background-color: #f7f7f7;
+}
+
+.action-cell {
+    text-align: center;
+}
+
+/* Knapper i tabellen */
+.order-btn {
+    padding: 8px 14px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.order-btn:hover {
+    background-color: #2f73df;
+}
+
+.paid {
+    color: green;
+    font-weight: bold;
 }

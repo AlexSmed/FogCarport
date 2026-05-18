@@ -1,6 +1,4 @@
 package app.persistence;
-
-import app.entities.Carport;
 import app.entities.Stykliste;
 import app.exception.DatabaseException;
 
