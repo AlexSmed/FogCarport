@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Mine ordre</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="header">
+        <div class="logoplace">
+            <a th:href="@{/index}">
+                <img src="/img/Fog.png" class="logoSize">
+            </a>
+        </div>
+    </div>
+
+    <ul class="menu">
+        <div class="left">
+            <li><a th:href="@{/myOrders}">Mine ordre</a></li>
+            <li><a th:href="@{/logout}">Log ud</a></li>
+        </div>
+    </ul>
+</header>
+
+<div class="container">
+    <h1>Mine ordre</h1>
+
+    <p th:if="${message}" th:text="${message}" class="message"></p>
+
+    <table class="order-table">
+        <tr>
+            <th>Ordre ID</th>
+            <th>Længde</th>
+            <th>Bredde</th>
+            <th>Pris</th>
+            <th>Status</th>
+            <th>Se stykliste</th>
+            <th>Handling</th>
+        </tr>
+
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.carport_id}"></td>
+            <td th:text="${order.carport_bredde}"></td>
+            <td th:text="${order.carport_laengde}"></td>
+            <td th:text="${order.pris} + ' kr'"></td>
+            <td th:text="${order.stykliste_id}"></td>
+            <td th:text="${order.status}"></td>
+
+            <td>
+                <form th:action="@{/payOrder}" method="post">
+                    <input type="hidden" name="orderId" th:value="${order.carport_id}">
+                    <button type="submit" th:if="${order.status != 'BETALT'}">Betal</button>
+                    <span th:if="${order.status == 'BETALT'}">✔ Betalt</span>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
