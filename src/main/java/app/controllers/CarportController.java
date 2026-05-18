@@ -31,6 +31,12 @@ public class CarportController {
           String status = "forspørglse afsendt";
           Users user = ctx.sessionAttribute("currentUser");
           int bruger_id = user.getBruger_id();
+
+          // Carport mål og pris
+          StyklisteController styklisteController = new StyklisteController();
+          styklisteController.udregningAfStolper(length);
+          styklisteController.udregningAfSpær(width);
+
           int stykliste_id = 0;
 
 
