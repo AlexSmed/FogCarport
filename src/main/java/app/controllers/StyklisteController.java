@@ -7,6 +7,8 @@ import java.util.ArrayList;
 public class StyklisteController {
 
 
+
+
     public static int antalStolper(int lengthInCm){
         int antalStolper = 0;
         if(lengthInCm < 430){
@@ -176,4 +178,6 @@ public class StyklisteController {
 
         return dækProcent;
     }
+
+
 }
