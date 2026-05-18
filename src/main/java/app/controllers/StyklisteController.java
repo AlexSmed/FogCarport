@@ -7,6 +7,8 @@ import java.util.ArrayList;
 public class StyklisteController {
 
 
+
+
     public static int antalStolper(int lengthInCm){
         int antalStolper = 0;
         if(lengthInCm < 430){
@@ -120,7 +122,7 @@ public class StyklisteController {
         int salgsPrisStolpe = antalStolper * 99;
         Materiale stolper = new Materiale(
                 1,"Stolpe", "100x100 mm. trykimp. Stolpe",
-                "Stolper nedgraves 90 cm. i jord", længdeAfStolper, 0,
+                "Stolper nedgraves 90 cm. i jord", længdeAfStolper, 30,
                 0, kostPrisStolpe, salgsPrisStolpe, antalStolper
         );
         return stolper;
@@ -137,55 +139,45 @@ public class StyklisteController {
 
         return spær;
     }
-
-    public static ArrayList<Materiale> udregningAfStykliste(int lengthInCm, int widthInCm){
-        ArrayList<Materiale> materiales = new ArrayList<>();
-        int antalStolper = antalStolper(lengthInCm);
-        int længdeAfStolper = 300;
-        int kostPrisStolpe = antalStolper * 69;
-        int salgsPrisStolpe = antalStolper * 99;
-        Materiale stolper = new Materiale(
-                1,"Stolpe", "100x100 mm. trykimp. Stolpe",
-                "Stolper nedgraves 90 cm. i jord", længdeAfStolper, 0,
-                0, kostPrisStolpe, salgsPrisStolpe, antalStolper
-        );
-        materiales.add(stolper);
-
-        int antalSpær = antalSpær(lengthInCm);
-        double kostPrisSpær = (lengthInCm / 100) * 37 * antalSpær;
-        double salgsPrisSpær = (lengthInCm / 100) * 44 * antalSpær;
-        Materiale spær  = new Materiale(materiales.size()+1,"Spær",
-                "45x195 mm. spærtræ ubh.",
-                "Spær, monteres på rem", widthInCm,
-                45,0,kostPrisSpær,salgsPrisSpær, antalSpær);
-
-        materiales.add(spær);
+    public static ArrayList<Materiale> udregningAfRemme(int lengthInCm){
         ArrayList<Integer> remmeLengths = laengdenAfRemmen(lengthInCm);
+        ArrayList<Materiale> remmeMaterialer = new ArrayList<>();
         for(int remmeLength : remmeLengths){
             double kostPrisRem = (remmeLength / 100) * 37;
             double salgsPrisRem = (remmeLength / 100) * 44;
-            Materiale materiale = new Materiale(
-                    materiales.size()+1, "Rem",
+            Materiale rem = new Materiale(
+                    3 + remmeLengths.size(), "Rem",
                     "45x195 mm. spærtræ ubh.",
                     "Remme i sider,sadles ned i stolper",
                     remmeLength,
-                    0, 0, kostPrisRem, salgsPrisRem, 1);
-            materiales.add(materiale);
+                    45, 0, kostPrisRem, salgsPrisRem, 1);
         }
-
-
-        return materiales;
+        return remmeMaterialer;
     }
+
     public static double udregnDækprocent(int lengthInCm, int widthInCm){
-        ArrayList<Materiale> materiales = udregningAfStykliste(lengthInCm, widthInCm);
+
+
+        ArrayList<Materiale> materiales =
+                StyklisteController.udregningAfRemme(540);
         double kostPris = 0;
         double salgsPris = 0;
-
         for (Materiale materiale: materiales){
             kostPris = materiale.getKost_pris() + kostPris;
+
             salgsPris = materiale.getSalgs_pris() + salgsPris;
         }
+        salgsPris = salgsPris +
+                StyklisteController.udregningAfStolper(540).getSalgs_pris() +
+                StyklisteController.udregningAfSpær(540).getSalgs_pris();
+        kostPris = kostPris +
+                StyklisteController.udregningAfStolper(540).getKost_pris() +
+                StyklisteController.udregningAfSpær(540).getKost_pris();
+
         double dækProcent = salgsPris / kostPris * 100 - 100;
+
         return dækProcent;
     }
+
+
 }

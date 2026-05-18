@@ -19,6 +19,15 @@ public class Carport {
         this.stykliste_id = stykliste_id;
     }
 
+    public Carport(int carport_id, int carport_bredde, int carport_laengde, double pris, String status, int stykliste_id) {
+        this.carport_id = carport_id;
+        this.carport_bredde = carport_bredde;
+        this.carport_laengde = carport_laengde;
+        this.pris = pris;
+        this.status = status;
+        this.stykliste_id = stykliste_id;
+    }
+
     public int getCarport_id() {
         return carport_id;
     }
