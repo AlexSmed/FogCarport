@@ -15,6 +15,9 @@ public class CarportController {
         app.get("/carportSkaber", ctx -> ctx.render("carportSkaber.html"));
 
         app.post("/order", ctx -> orderCarport(ctx, connectionPool));
+        app.get("/myOrders", ctx -> getCustomeOrders(ctx, connectionPool));
+        app.post("/payOrder", ctx -> updateStatus(ctx, connectionPool));
+
 
         app.get("/adminPage", ctx ->
                 CarportController.showAllCarports(ctx, connectionPool));
@@ -28,6 +31,12 @@ public class CarportController {
           String status = "forspørglse afsendt";
           Users user = ctx.sessionAttribute("currentUser");
           int bruger_id = user.getBruger_id();
+
+          // Carport mål og pris
+          StyklisteController styklisteController = new StyklisteController();
+          styklisteController.udregningAfStolper(length);
+          styklisteController.udregningAfSpær(width);
+
           int stykliste_id = 0;
 
 
@@ -57,6 +66,25 @@ public class CarportController {
         ctx.attribute("carports", carports);
 
         ctx.render("adminPage.html");
+    }
+
+    public static void getCustomeOrders(Context ctx, ConnectionPool connectionPool){
+        int brugerId = ctx.sessionAttribute("bruger_id");
+
+        List<Carport> myOrders= CarportMapper.getAllOrdersByUserId(brugerId, connectionPool);
+
+
+        ctx.attribute("orders", myOrders);
+        ctx.render("showCustomerOrders.html");
+
+    }
+
+    public static void updateStatus(Context ctx, ConnectionPool connectionPool){
+        int carportId = Integer.parseInt(ctx.formParam("orderId"));
+
+        CarportMapper.updateStatus(carportId, connectionPool);
+
+        ctx.redirect("/myOrders");
     }
 
 }
