@@ -22,8 +22,7 @@ public class CarportController {
         app.post("/payOrder", ctx -> updateStatus(ctx, connectionPool));
 
 
-        app.get("/adminPage", ctx ->
-                CarportController.showAllCarports(ctx, connectionPool));
+
     }
 
     public static void orderCarport(Context ctx, ConnectionPool connectionPool){
@@ -61,27 +60,7 @@ public class CarportController {
     }
 
 
-    private static void getAllOrdersWithUnpaidStatus(Context ctx, ConnectionPool connectionPool) {
 
-        CarportMapper carportMapper = new CarportMapper(connectionPool);
-
-        List<Carport> unPaidCarports = carportMapper.getAllCarportsWithUpaidStatus(connectionPool);
-
-        ctx.attribute("unPaidCarports", unPaidCarports);
-
-        ctx.render("adminPage.html");
-
-    }
-    public static void showAllCarports(Context ctx, ConnectionPool connectionPool)
-    {
-        CarportMapper mapper = new CarportMapper(connectionPool);
-
-        List<Carport> carports = mapper.getAllCarports(connectionPool);
-
-        ctx.attribute("carports", carports);
-
-        ctx.render("adminPage.html");
-    }
 
     public static void getCustomeOrders(Context ctx, ConnectionPool connectionPool){
         int brugerId = ctx.sessionAttribute("bruger_id");
