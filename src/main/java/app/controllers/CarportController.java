@@ -4,19 +4,11 @@ import app.entities.Carport;
 import app.entities.Users;
 import app.exception.DatabaseException;
 import app.persistence.CarportMapper;
-import app.entities.Carport;
-import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.util.List;
-import io.javalin.http.Context;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static app.Main.connectionPool;
 
 public class CarportController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
