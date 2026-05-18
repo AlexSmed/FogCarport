@@ -34,59 +34,53 @@ class StyklisteControllerTest {
         assertEquals(expectedRemmeLengths, actualRemmeLengths);
     }
     @Test
-    void testUdregningAfStyklisteNavnOgBeskrivelse(){
-        ArrayList<Materiale> materiales = StyklisteController.udregningAfStykliste(540, 540);
-        assertEquals("Stolpe", materiales.get(0).getNavn());
-        assertEquals("Spær", materiales.get(1).getNavn());
-        assertEquals("Rem", materiales.get(2).getNavn());
+    void testUdregningAfStolper(){
+        Materiale stolper = StyklisteController.udregningAfStolper(240);
+        assertEquals("Stolpe", stolper.getNavn());
+        assertEquals("100x100 mm. trykimp. Stolpe", stolper.getVare_beskrivelse());
+        assertEquals(StyklisteController.antalStolper(240), stolper.getAntal());
+        assertEquals("Stolper nedgraves 90 cm. i jord",stolper.getHjaelpe_tekst());
 
-        assertEquals("97x97 mm. trykimp. Stolpe", materiales.get(0).getVare_beskrivelse());
-        assertEquals("45x195 mm. spærtræ ubh.", materiales.get(1).getVare_beskrivelse());
-        assertEquals("45x195 mm. spærtræ ubh.", materiales.get(2).getVare_beskrivelse());
 
     }
     @Test
-    void testUdregningAfStyklisteAntal(){
-        ArrayList<Materiale> materiales = StyklisteController.udregningAfStykliste(240, 240);
-        assertEquals(StyklisteController.antalStolper(240), materiales.get(0).getAntal());
-
-        assertEquals(StyklisteController.antalSpær(240), materiales.get(1).getAntal());
-
-        assertEquals(1, materiales.get(2).getAntal());
-
+    void testUdregningAfSpær(){
+        Materiale spær = StyklisteController.udregningAfSpær(540);
+        assertEquals("Spær", spær.getNavn());
+        assertEquals("45x195 mm. spærtræ ubh.", spær.getVare_beskrivelse());
+        assertEquals(StyklisteController.antalSpær(540),spær.getAntal());
+        assertEquals("Spær, monteres på rem",spær.getHjaelpe_tekst());
     }
     @Test
-    void testUdregningAfStyklisteHjaelpeTekst(){
-        ArrayList<Materiale> materiales =
-                StyklisteController.udregningAfStykliste(540, 540);
-        assertEquals("Stolper nedgraves 90 cm. i jord", materiales.get(0).getHjaelpe_tekst());
-
-        assertEquals("Spær, monteres på rem", materiales.get(1).getHjaelpe_tekst());
-
-        assertEquals("Remme i sider,sadles ned i stolper", materiales.get(2).getHjaelpe_tekst());
-
+    void testUdregningAfRemme(){
+        ArrayList<Materiale> remme = StyklisteController.udregningAfRemme(540);
+        for (Materiale rem: remme){
+            assertEquals("Rem", rem.getNavn());
+            assertEquals("45x195 mm. spærtræ ubh.", rem.getVare_beskrivelse());
+            assertEquals(1, rem.getAntal());
+            assertEquals("Remme i sider,sadles ned i stolper", rem.getHjaelpe_tekst());
+        }
     }
+
+
+
     @Test
     void testDækprocent(){
         ArrayList<Materiale> materiales =
-                StyklisteController.udregningAfStykliste(540, 540);
+                StyklisteController.udregningAfRemme(540);
         double kostPris = 0;
         double salgsPris = 0;
-
         for (Materiale materiale: materiales){
             kostPris = materiale.getKost_pris() + kostPris;
 
             salgsPris = materiale.getSalgs_pris() + salgsPris;
         }
-        for(int i = 0; i < materiales.size(); i++){
-            System.out.println(materiales.get(i).getNavn());
-            System.out.println(materiales.get(i).getAntal());
-            System.out.println(materiales.get(i).getLaengde());
-            System.out.println(materiales.get(i).getKost_pris());
-            System.out.println(materiales.get(i).getSalgs_pris());
-        }
-        System.out.println(kostPris);
-        System.out.println(salgsPris);
+        salgsPris = salgsPris +
+                StyklisteController.udregningAfStolper(540).getSalgs_pris() +
+                StyklisteController.udregningAfSpær(540).getSalgs_pris();
+        kostPris = kostPris +
+                StyklisteController.udregningAfStolper(540).getKost_pris() +
+                StyklisteController.udregningAfSpær(540).getKost_pris();
 
         double dækProcent = salgsPris / kostPris * 100 - 100;
         System.out.println(dækProcent);
