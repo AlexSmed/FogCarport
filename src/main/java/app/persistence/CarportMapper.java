@@ -2,8 +2,6 @@ package app.persistence;
 
 import app.entities.Carport;
 import app.exception.DatabaseException;
-import org.postgresql.jdbc2.optional.ConnectionPool;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
