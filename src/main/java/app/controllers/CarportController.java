@@ -37,8 +37,6 @@ public class CarportController {
         ctx.attribute("orders", myOrders);
         ctx.render("showCustomerOrders.html");
 
-        System.out.println("Bruger ID i session: " + ctx.sessionAttribute("bruger_id"));
-        System.out.println("Antal ordrer fundet: " + myOrders.size());
     }
 
     public static void updateStatus(Context ctx, ConnectionPool connectionPool){
