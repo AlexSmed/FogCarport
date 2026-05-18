@@ -46,7 +46,7 @@ public class CarportMapper {
     }
 
     public static void createCarport(int carport_bredde, int carport_laengde, double pris, String status, int bruger_id, int stykliste_id, ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "INSERT INTO carport (carport_bredde, carport_laengde, pris, status, bruger_id, stykliste_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carports (carport_bredde, carport_laengde, pris, status, bruger_id, stykliste_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

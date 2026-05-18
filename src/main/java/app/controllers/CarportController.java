@@ -21,10 +21,14 @@ import static app.Main.connectionPool;
 public class CarportController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/carportSkaber", ctx -> ctx.render("carportSkaber.html"));
+
         app.post("/order", ctx -> orderCarport(ctx, connectionPool));
         app.get("/myOrders", ctx -> getCustomeOrders(ctx, connectionPool));
         app.post("/payOrder", ctx -> updateStatus(ctx, connectionPool));
 
+
+        app.get("/adminPage", ctx ->
+                CarportController.showAllCarports(ctx, connectionPool));
     }
     public static void orderCarport(Context ctx, ConnectionPool connectionPool){
 
@@ -54,7 +58,16 @@ public class CarportController {
 
         ctx.render("adminPage.html");
 
+    }
+    public static void showAllCarports(Context ctx, ConnectionPool connectionPool)
+    {
+        CarportMapper mapper = new CarportMapper(connectionPool);
 
+        List<Carport> carports = mapper.getAllCarports(connectionPool);
+
+        ctx.attribute("carports", carports);
+
+        ctx.render("adminPage.html");
     }
 
     public static void getCustomeOrders(Context ctx, ConnectionPool connectionPool){

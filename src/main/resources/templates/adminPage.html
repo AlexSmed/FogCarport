@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
+    <title>Carports</title>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <h1>Hej Admin</h1>
 </head>
+
 <body>
+
+<h1>Alle carports</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tagtype</th>
+        <th>Bredde</th>
+        <th>Længde</th>
+        <th>Pris</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="carport : ${carports}">
+        <td th:text="${carport.carport_id}"></td>
+        <td th:text="${carport.tagtype}"></td>
+        <td th:text="${carport.carport_bredde}"></td>
+        <td th:text="${carport.carport_laengde}"></td>
+        <td th:text="${carport.pris}"></td>
+        <td th:text="${carport.status}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
+
 </body>
 </html>
