@@ -1,9 +1,16 @@
 package app.controllers;
 
 import app.entities.Carport;
+import app.entities.Users;
+import app.exception.DatabaseException;
+import app.persistence.CarportMapper;
+import app.entities.Carport;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
+import io.javalin.http.Context;
+
+import java.util.List;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
@@ -19,13 +26,35 @@ public class CarportController {
         app.post("/payOrder", ctx -> updateStatus(ctx, connectionPool));
 
     }
-    public static void orderCarport(Context ctx){
-        int width = Integer.parseInt(ctx.formParam("width"));
-        int length = Integer.parseInt(ctx.formParam("length"));
+    public static void orderCarport(Context ctx, ConnectionPool connectionPool){
 
-        System.out.println(width);
-        System.out.println(length);
-        ctx.render("carportSkaber.html");
+      try {
+          int width = Integer.parseInt(ctx.formParam("width"));
+          int length = Integer.parseInt(ctx.formParam("length"));
+          double pris = 0;
+          String status = "forspørglse afsendt";
+          Users user = ctx.sessionAttribute("currentUser");
+          int bruger_id = user.getBruger_id();
+          int stykliste_id = 0;
+
+
+          CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
+          ctx.result("Carport oprettet!");
+      }catch (DatabaseException e) {
+          ctx.result("Fejl: " + e.getMessage());
+        }
+    }
+    private static void getAllOrdersWithUnpaidStatus(Context ctx, ConnectionPool connectionPool) {
+
+        CarportMapper carportMapper = new CarportMapper(connectionPool);
+
+        List<Carport> unPaidCarports = carportMapper.getAllCarportsWithUpaidStatus(connectionPool);
+
+        ctx.attribute("unPaidCarports", unPaidCarports);
+
+        ctx.render("adminPage.html");
+
+
     }
 
     public static void getCustomeOrders(Context ctx, ConnectionPool connectionPool){
@@ -46,4 +75,5 @@ public class CarportController {
 
         ctx.redirect("/myOrders");
     }
+
 }
