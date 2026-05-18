@@ -2,10 +2,7 @@ package app.persistence;
 import app.entities.Stykliste;
 import app.exception.DatabaseException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,22 +31,27 @@ public class StyklisteMapper {
         return styklists;
     }
 
-    public static void createStykliste(int bruger_id, ConnectionPool connectionPool) throws DatabaseException {
+    public static int createStykliste(int brugerId, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "INSERT INTO stykliste (bruger_id) VALUES (?)";
 
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, brugerId);
+            int affectedRows = ps.executeUpdate();
 
-            ps.setInt(1, bruger_id);
-
-
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected != 1) {
-                throw new DatabaseException("Fejl ved oprettelse af stykliste");
+            if (affectedRows == 0) {
+                throw new DatabaseException("Indsætning mislykkedes, ingen rækker påvirket");
             }
 
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                } else {
+                    throw new DatabaseException("Kunne ikke oprette stykliste");
+                }
+            }
         } catch (SQLException e) {
-            throw new DatabaseException("Kunne ikke oprette stykliste", e.getMessage());
+            throw new DatabaseException("Fejl ved oprettelse af stykliste", e.getMessage());
         }
     }
 

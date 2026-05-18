@@ -1,13 +1,16 @@
 package app.controllers;
 
 import app.entities.Carport;
+import app.entities.Materiale;
 import app.entities.Users;
 import app.exception.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.StyklisteMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarportController {
@@ -22,6 +25,7 @@ public class CarportController {
         app.get("/adminPage", ctx ->
                 CarportController.showAllCarports(ctx, connectionPool));
     }
+
     public static void orderCarport(Context ctx, ConnectionPool connectionPool){
 
       try {
@@ -36,9 +40,18 @@ public class CarportController {
           StyklisteController styklisteController = new StyklisteController();
           styklisteController.udregningAfStolper(length);
           styklisteController.udregningAfSpær(width);
+          ArrayList<Materiale> materialer = new ArrayList<>();
+          materialer.add( styklisteController.udregningAfStolper(length));
+          materialer.add( styklisteController.udregningAfSpær(width));
+          ArrayList<Materiale> remme = new ArrayList<>();
+          for(Materiale rem: remme){
+              materialer.add(rem);
+          }
+          for(Materiale materiale : materialer){
+              pris = materiale.getSalgs_pris() + pris;
+          }
 
-          int stykliste_id = 0;
-
+          int stykliste_id = StyklisteMapper.createStykliste(bruger_id, connectionPool);
 
           CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
           ctx.result("Carport oprettet!");
@@ -46,6 +59,8 @@ public class CarportController {
           ctx.result("Fejl: " + e.getMessage());
         }
     }
+
+
     private static void getAllOrdersWithUnpaidStatus(Context ctx, ConnectionPool connectionPool) {
 
         CarportMapper carportMapper = new CarportMapper(connectionPool);
