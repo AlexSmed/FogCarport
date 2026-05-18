@@ -2,7 +2,6 @@ package app.persistence;
 
 import app.entities.Carport;
 import app.exception.DatabaseException;
-import app.persistence.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

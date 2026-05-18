@@ -21,7 +21,7 @@ import static app.Main.connectionPool;
 public class CarportController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/carportSkaber", ctx -> ctx.render("carportSkaber.html"));
-        app.post("/order", ctx -> orderCarport(ctx));
+        app.post("/order", ctx -> orderCarport(ctx, connectionPool));
         app.get("/myOrders", ctx -> getCustomeOrders(ctx, connectionPool));
         app.post("/payOrder", ctx -> updateStatus(ctx, connectionPool));
 
