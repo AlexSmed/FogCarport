@@ -8,6 +8,10 @@ public class Materiale {
     private int laengde;
     private int antal;
     private double kost_pris;
+
+    public Materiale() {
+    }
+
     private double salgs_pris;
 
     public Materiale(int vareNummer, String navn, String vare_beskrivelse, String hjaelpe_tekst,
@@ -26,6 +30,9 @@ public class Materiale {
     }
     public int getAntal(){
         return antal;
+    }
+    public void setAntal(int antal){
+        this.antal = antal;
     }
 
     public int getVareNummer() {
