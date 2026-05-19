@@ -44,13 +44,12 @@ public class AdminMapper {
         return carports;
     }
 
-    public List<Carport> getAllCarportsWithUpaidStatus(ConnectionPool connectionPool) {
-        List<Carport> carports = new ArrayList<>();
-        String sql = "SELECT * FROM carports where status = ?";
+    public List<Carport> getAllCarportsWithUnpaidStatus(ConnectionPool connectionPool) {
+        List<Carport> unpaidCarports = new ArrayList<>();
+        String sql = "SELECT * FROM public.carport WHERE status IS DISTINCT FROM 'BETALT'";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, "ikkeBetalt");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -63,14 +62,14 @@ public class AdminMapper {
                 int bruger_id = rs.getInt("bruger_id");
 
                 Carport carport = new Carport(carport_id, bredde, laengde, pris, status, bruger_id, stykliste_id);
-                carports.add(carport);
+                unpaidCarports.add(carport);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return carports;
+        return unpaidCarports;
     }
 
 
