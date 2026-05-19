@@ -37,11 +37,11 @@ public class CarportController {
 
           // Carport mål og pris
           StyklisteController styklisteController = new StyklisteController();
-          styklisteController.udregningAfStolper(length);
-          styklisteController.udregningAfSpær(width);
+          styklisteController.udregningAfStolper(length, connectionPool);
+          styklisteController.udregningAfSpær(width, connectionPool);
           ArrayList<Materiale> materialer = new ArrayList<>();
-          materialer.add( styklisteController.udregningAfStolper(length));
-          materialer.add( styklisteController.udregningAfSpær(width));
+          materialer.add( styklisteController.udregningAfStolper(length, connectionPool));
+          materialer.add( styklisteController.udregningAfSpær(width, connectionPool));
           ArrayList<Materiale> remme = new ArrayList<>();
           for(Materiale rem: remme){
               materialer.add(rem);

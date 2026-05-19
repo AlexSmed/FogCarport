@@ -1,12 +1,19 @@
 package app.controllers;
 
 import app.entities.Materiale;
+import app.exception.DatabaseException;
+import app.persistence.ConnectionPool;
+import app.persistence.StyklisteMapper;
 
 import java.util.ArrayList;
 
 public class StyklisteController {
-
-
+    private final static String USER = "postgres";
+    private final static String PASSWORD = "postgres";
+    private final static String URL = "jdbc:postgresql://localhost:5432/Fog?currentSchema=public";
+    private static final String DB = "Fog";
+    private static ConnectionPool connectionPool
+            = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 
 
     public static int antalStolper(int lengthInCm){
@@ -115,51 +122,68 @@ public class StyklisteController {
         }
         return closestRemmeLengths;
     }
-    public static Materiale udregningAfStolper(int lengthInCm){
+    public static Materiale udregningAfStolper(int lengthInCm,ConnectionPool connectionPool) throws DatabaseException {
         int antalStolper = antalStolper(lengthInCm);
         int længdeAfStolper = 300;
-        int kostPrisStolpe = antalStolper * 69;
-        int salgsPrisStolpe = antalStolper * 99;
-        Materiale stolper = new Materiale(
-                1,"Stolpe", "100x100 mm. trykimp. Stolpe",
-                "Stolper nedgraves 90 cm. i jord", længdeAfStolper, 30,
-                0, kostPrisStolpe, salgsPrisStolpe, antalStolper
-        );
+        int kostPrisStolpe = antalStolper * StyklisteMapper.getKost_pris(1, connectionPool);
+        int salgsPrisStolpe = antalStolper * StyklisteMapper.getSalgs_pris(1, connectionPool);
+        Materiale stolper = StyklisteMapper.getMaterialeFromVareNummer(1, connectionPool);
+        stolper.setAntal(antalStolper);
         return stolper;
 
     }
-    public static Materiale udregningAfSpær(int lengthInCm){
-        int antalSpær = antalSpær(lengthInCm);
-        double kostPrisSpær = (lengthInCm / 100) * 37 * antalSpær;
-        double salgsPrisSpær = (lengthInCm / 100) * 44 * antalSpær;
-        Materiale spær  = new Materiale(2,"Spær",
-                "45x195 mm. spærtræ ubh.",
-                "Spær, monteres på rem",lengthInCm,
-                45,0,kostPrisSpær,salgsPrisSpær, antalSpær);
+    public static Materiale udregningAfSpær(int widthInCm, ConnectionPool connectionPool) throws DatabaseException {
+        int antalSpær = antalSpær(widthInCm);
 
-        return spær;
+        Materiale materiale = new Materiale();
+        materiale = switch (widthInCm) {
+            case 240 -> StyklisteMapper.getMaterialeFromVareNummer(2, connectionPool);
+            case 270 -> StyklisteMapper.getMaterialeFromVareNummer(2, connectionPool);
+            case 300 -> StyklisteMapper.getMaterialeFromVareNummer(2, connectionPool);
+            case 330 -> StyklisteMapper.getMaterialeFromVareNummer(3, connectionPool);
+            case 360 -> StyklisteMapper.getMaterialeFromVareNummer(3, connectionPool);
+            case 390 -> StyklisteMapper.getMaterialeFromVareNummer(4, connectionPool);
+            case 420 -> StyklisteMapper.getMaterialeFromVareNummer(4, connectionPool);
+            case 450 -> StyklisteMapper.getMaterialeFromVareNummer(5, connectionPool);
+            case 480 -> StyklisteMapper.getMaterialeFromVareNummer(5, connectionPool);
+            case 510 -> StyklisteMapper.getMaterialeFromVareNummer(6, connectionPool);
+            case 540 -> StyklisteMapper.getMaterialeFromVareNummer(6, connectionPool);
+            case 570 -> StyklisteMapper.getMaterialeFromVareNummer(7, connectionPool);
+            case 600 -> StyklisteMapper.getMaterialeFromVareNummer(7, connectionPool);
+            default -> materiale;
+        };
+        materiale.setAntal(antalSpær);
+        return materiale;
     }
-    public static ArrayList<Materiale> udregningAfRemme(int lengthInCm){
+    public static ArrayList<Materiale> udregningAfRemme(int lengthInCm, ConnectionPool connectionPool) throws DatabaseException {
         ArrayList<Integer> remmeLengths = laengdenAfRemmen(lengthInCm);
         ArrayList<Materiale> remmeMaterialer = new ArrayList<>();
+
         for(int remmeLength : remmeLengths){
-            double kostPrisRem = (remmeLength / 100) * 37;
-            double salgsPrisRem = (remmeLength / 100) * 44;
-            Materiale rem = new Materiale(
-                    3 + remmeLengths.size(), "Rem",
-                    "45x195 mm. spærtræ ubh.",
-                    "Remme i sider,sadles ned i stolper",
-                    remmeLength,
-                    45, 0, kostPrisRem, salgsPrisRem, 1);
+           switch (remmeLength){
+               case 240 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(8, connectionPool));
+               case 270 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(8, connectionPool));
+               case 300 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(8, connectionPool));
+               case 330 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(9, connectionPool));
+               case 360 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(9, connectionPool));
+               case 390 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(10, connectionPool));
+               case 420 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(10, connectionPool));
+               case 450 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(11, connectionPool));
+               case 480 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(11, connectionPool));
+               case 510 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(12, connectionPool));
+               case 540 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(12, connectionPool));
+               case 570 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(13, connectionPool));
+               case 600 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(13, connectionPool));
+           }
         }
         return remmeMaterialer;
     }
 
-    public static double udregnDækprocent(int lengthInCm, int widthInCm){
+    public static double udregnDækprocent(int lengthInCm, int widthInCm, ConnectionPool connectionPool) throws DatabaseException {
 
 
         ArrayList<Materiale> materiales =
-                StyklisteController.udregningAfRemme(540);
+                StyklisteController.udregningAfRemme(540, connectionPool);
         double kostPris = 0;
         double salgsPris = 0;
         for (Materiale materiale: materiales){
@@ -168,16 +192,14 @@ public class StyklisteController {
             salgsPris = materiale.getSalgs_pris() + salgsPris;
         }
         salgsPris = salgsPris +
-                StyklisteController.udregningAfStolper(540).getSalgs_pris() +
-                StyklisteController.udregningAfSpær(540).getSalgs_pris();
+                StyklisteController.udregningAfStolper(540, connectionPool).getSalgs_pris() +
+                StyklisteController.udregningAfSpær(540, connectionPool).getSalgs_pris();
         kostPris = kostPris +
-                StyklisteController.udregningAfStolper(540).getKost_pris() +
-                StyklisteController.udregningAfSpær(540).getKost_pris();
+                StyklisteController.udregningAfStolper(540, connectionPool).getKost_pris() +
+                StyklisteController.udregningAfSpær(540, connectionPool).getKost_pris();
 
         double dækProcent = salgsPris / kostPris * 100 - 100;
 
         return dækProcent;
     }
-
-
 }

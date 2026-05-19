@@ -1,14 +1,29 @@
 package app.controllers;
 
 import app.entities.Materiale;
+import app.exception.DatabaseException;
+import app.persistence.ConnectionPool;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StyklisteControllerTest {
+    private final static String USER = "postgres";
+    private final static String PASSWORD = "postgres";
+    private final static String URL = "jdbc:postgresql://localhost:5432/Fog?currentSchema=public";
+    private static final String DB = "Fog";
+    private static ConnectionPool connectionPool
+            = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
     StyklisteController styklisteController = new StyklisteController();
+
+    @Test
+    void testConnection() throws SQLException {
+        assertNotNull(connectionPool.getConnection());
+
+    }
     @Test
     void antalStolper() {
         int antalStolper = styklisteController.antalStolper(420);
@@ -34,8 +49,8 @@ class StyklisteControllerTest {
         assertEquals(expectedRemmeLengths, actualRemmeLengths);
     }
     @Test
-    void testUdregningAfStolper(){
-        Materiale stolper = StyklisteController.udregningAfStolper(240);
+    void testUdregningAfStolper() throws DatabaseException {
+        Materiale stolper = StyklisteController.udregningAfStolper(240, connectionPool);
         assertEquals("Stolpe", stolper.getNavn());
         assertEquals("100x100 mm. trykimp. Stolpe", stolper.getVare_beskrivelse());
         assertEquals(StyklisteController.antalStolper(240), stolper.getAntal());
@@ -44,19 +59,19 @@ class StyklisteControllerTest {
 
     }
     @Test
-    void testUdregningAfSpær(){
-        Materiale spær = StyklisteController.udregningAfSpær(540);
-        assertEquals("Spær", spær.getNavn());
-        assertEquals("45x195 mm. spærtræ ubh.", spær.getVare_beskrivelse());
+    void testUdregningAfSpær() throws DatabaseException {
+        Materiale spær = StyklisteController.udregningAfSpær(540, connectionPool);
+        assertEquals("spær", spær.getNavn());
+        assertEquals("45x195 mm spærtræ", spær.getVare_beskrivelse());
         assertEquals(StyklisteController.antalSpær(540),spær.getAntal());
-        assertEquals("Spær, monteres på rem",spær.getHjaelpe_tekst());
+        assertEquals("Spær, monteres på rem, monteres oven på remmen",spær.getHjaelpe_tekst());
     }
     @Test
-    void testUdregningAfRemme(){
-        ArrayList<Materiale> remme = StyklisteController.udregningAfRemme(540);
+    void testUdregningAfRemme() throws DatabaseException {
+        ArrayList<Materiale> remme = StyklisteController.udregningAfRemme(540, connectionPool);
         for (Materiale rem: remme){
-            assertEquals("Rem", rem.getNavn());
-            assertEquals("45x195 mm. spærtræ ubh.", rem.getVare_beskrivelse());
+            assertEquals("rem", rem.getNavn());
+            assertEquals("45x195 mm spærtræ", rem.getVare_beskrivelse());
             assertEquals(1, rem.getAntal());
             assertEquals("Remme i sider,sadles ned i stolper", rem.getHjaelpe_tekst());
         }
@@ -65,9 +80,9 @@ class StyklisteControllerTest {
 
 
     @Test
-    void testDækprocent(){
+    void testDækprocent() throws DatabaseException {
         ArrayList<Materiale> materiales =
-                StyklisteController.udregningAfRemme(540);
+                StyklisteController.udregningAfRemme(540, connectionPool);
         double kostPris = 0;
         double salgsPris = 0;
         for (Materiale materiale: materiales){
@@ -76,15 +91,15 @@ class StyklisteControllerTest {
             salgsPris = materiale.getSalgs_pris() + salgsPris;
         }
         salgsPris = salgsPris +
-                StyklisteController.udregningAfStolper(540).getSalgs_pris() +
-                StyklisteController.udregningAfSpær(540).getSalgs_pris();
+                StyklisteController.udregningAfStolper(540, connectionPool).getSalgs_pris() +
+                StyklisteController.udregningAfSpær(540, connectionPool).getSalgs_pris();
         kostPris = kostPris +
-                StyklisteController.udregningAfStolper(540).getKost_pris() +
-                StyklisteController.udregningAfSpær(540).getKost_pris();
+                StyklisteController.udregningAfStolper(540, connectionPool).getKost_pris() +
+                StyklisteController.udregningAfSpær(540, connectionPool).getKost_pris();
 
         double dækProcent = salgsPris / kostPris * 100 - 100;
         System.out.println(dækProcent);
-        assertEquals(dækProcent, StyklisteController.udregnDækprocent(540,540));
+        assertEquals(dækProcent, StyklisteController.udregnDækprocent(540,540, connectionPool));
     }
 
 }

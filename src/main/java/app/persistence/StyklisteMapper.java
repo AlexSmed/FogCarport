@@ -1,12 +1,20 @@
 package app.persistence;
+import app.entities.Materiale;
 import app.entities.Stykliste;
 import app.exception.DatabaseException;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StyklisteMapper {
+    private final static String USER = "postgres";
+    private final static String PASSWORD = "postgres";
+    private final static String URL = "jdbc:postgresql://localhost:5432/Fog?currentSchema=public";
+    private static final String DB = "Fog";
+    private static ConnectionPool connectionPool
+            = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 
     public List<Stykliste> getStyklist(ConnectionPool connectionPool) {
         List<Stykliste> styklists = new ArrayList<>();
@@ -29,6 +37,82 @@ public class StyklisteMapper {
         }
 
         return styklists;
+    }
+    public static int getKost_pris(int vareNummer, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "SELECT kost_pris FROM materialer WHERE vare_nummer = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, vareNummer);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    int kost_pris = resultSet.getInt("kost_pris");
+                    return kost_pris;
+
+                } else {
+                    return 0;
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("login fejlede", e.getMessage());
+        }
+    }
+    public static Materiale getMaterialeFromVareNummer(int vareNummer, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "SELECT * FROM materialer WHERE vare_nummer = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, vareNummer);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    int vare_nummer = resultSet.getInt("vare_nummer");
+                    String navn = resultSet.getString("navn");
+                    String vareBeskrivelse = resultSet.getString("vare_beskrivelse");
+                    String hjælpeTekst = resultSet.getString("hjaelpe_tekst");
+                    int højde = resultSet.getInt("hoejde");
+                    int længde = resultSet.getInt("laengde");
+                    int bredde = resultSet.getInt("bredde");
+                    int kost_pris = resultSet.getInt("kost_pris");
+                    int salgs_pris = resultSet.getInt("salgs_pris");
+
+                    Materiale materiale = new Materiale(vare_nummer,navn,vareBeskrivelse,hjælpeTekst,længde,bredde,højde,kost_pris,salgs_pris, 1);
+                    return materiale;
+                } else {
+                    Materiale materiale2 = new Materiale();
+                    return materiale2;
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("login fejlede", e.getMessage());
+        }
+    }
+    public static int getSalgs_pris(int vareNummer, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "SELECT salgs_pris FROM Materialer WHERE vare_nummer = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, vareNummer);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    int salgs_pris = resultSet.getInt("salgs_pris");
+                    return salgs_pris;
+
+                } else {
+                    return 0;
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("login fejlede", e.getMessage());
+        }
     }
 
     public static int createStykliste(int brugerId, ConnectionPool connectionPool) throws DatabaseException {
