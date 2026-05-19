@@ -2,14 +2,17 @@ package app.controllers;
 
 import app.entities.Carport;
 import app.entities.Materiale;
+import app.entities.Stykliste;
 import app.entities.Users;
 import app.exception.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderlinjeMapper;
 import app.persistence.StyklisteMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,25 +37,14 @@ public class CarportController {
           String status = "forspørglse afsendt";
           Users user = ctx.sessionAttribute("currentUser");
           int bruger_id = user.getBruger_id();
-
-          // Carport mål og pris
-          StyklisteController styklisteController = new StyklisteController();
-          styklisteController.udregningAfStolper(length, connectionPool);
-          styklisteController.udregningAfSpær(width, connectionPool);
-
-          ArrayList<Materiale> materialer = new ArrayList<>();
-          materialer.add( styklisteController.udregningAfStolper(length, connectionPool));
-          materialer.add( styklisteController.udregningAfSpær(width, connectionPool));
-
-          ArrayList<Materiale> remme = new ArrayList<>();
-          for(Materiale rem: remme){
-              materialer.add(rem);
-          }
-          for(Materiale materiale : materialer){
-              pris = materiale.getSalgs_pris() + pris;
+          int stykliste_id = StyklisteMapper.getHighestStyklistId()+1;
+          StyklisteMapper.createStykliste(stykliste_id, bruger_id, connectionPool);
+          ArrayList<Materiale> materialerIOrderen = StyklisteController.stykListeMaterialer(length, width, connectionPool);
+          for(Materiale materiale : materialerIOrderen){
+              pris = pris + materiale.getSalgs_pris();
+              OrderlinjeMapper.createOrderlinje(stykliste_id, materiale.getVareNummer(), materiale.getAntal(), connectionPool);
           }
 
-          int stykliste_id = StyklisteMapper.createStykliste(bruger_id, connectionPool);
 
           CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
           ctx.result("Carport oprettet!");

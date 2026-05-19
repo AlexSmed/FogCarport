@@ -1,6 +1,7 @@
 package app.persistence;
 import app.entities.Materiale;
 import app.entities.Stykliste;
+import app.entities.Users;
 import app.exception.DatabaseException;
 
 
@@ -38,6 +39,7 @@ public class StyklisteMapper {
 
         return styklists;
     }
+
     public static int getKost_pris(int vareNummer, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "SELECT kost_pris FROM materialer WHERE vare_nummer = ?";
 
@@ -60,6 +62,7 @@ public class StyklisteMapper {
             throw new DatabaseException("login fejlede", e.getMessage());
         }
     }
+
     public static Materiale getMaterialeFromVareNummer(int vareNummer, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "SELECT * FROM materialer WHERE vare_nummer = ?";
 
@@ -80,7 +83,7 @@ public class StyklisteMapper {
                     int kost_pris = resultSet.getInt("kost_pris");
                     int salgs_pris = resultSet.getInt("salgs_pris");
 
-                    Materiale materiale = new Materiale(vare_nummer,navn,vareBeskrivelse,hjælpeTekst,længde,bredde,højde,kost_pris,salgs_pris, 1);
+                    Materiale materiale = new Materiale(vare_nummer, navn, vareBeskrivelse, hjælpeTekst, længde, bredde, højde, kost_pris, salgs_pris, 1);
                     return materiale;
                 } else {
                     Materiale materiale2 = new Materiale();
@@ -92,6 +95,7 @@ public class StyklisteMapper {
             throw new DatabaseException("login fejlede", e.getMessage());
         }
     }
+
     public static int getSalgs_pris(int vareNummer, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "SELECT salgs_pris FROM Materialer WHERE vare_nummer = ?";
 
@@ -115,27 +119,41 @@ public class StyklisteMapper {
         }
     }
 
-    public static int createStykliste(int brugerId, ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "INSERT INTO stykliste (bruger_id) VALUES (?)";
+    public static void createStykliste(int stykliste_id, int brugerId, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "INSERT INTO stykliste (stykliste_id, bruger_id) VALUES (?, ?)";
 
-        try (Connection conn = connectionPool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, brugerId);
-            int affectedRows = ps.executeUpdate();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, stykliste_id);
+            ps.setInt(2, brugerId);
 
-            if (affectedRows == 0) {
-                throw new DatabaseException("Indsætning mislykkedes, ingen rækker påvirket");
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1) {
+                throw new DatabaseException("Fejl ved oprettelse af ny stykliste");
             }
 
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke oprette stykliste", e.getMessage());
+        }
+    }
+
+
+    public static int getHighestStyklistId() throws DatabaseException {
+
+        String sql = "SELECT Max(stykliste_id) AS stykliste_id FROM stykliste";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    int højesteStyklisteId = resultSet.getInt("stykliste_id");
+                    return højesteStyklisteId;
                 } else {
-                    throw new DatabaseException("Kunne ikke oprette stykliste");
+                    return 1;
                 }
+
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Fejl ved oprettelse af stykliste", e.getMessage());
+            throw new DatabaseException("Det at få den højeste stykliste fejlede", e.getMessage());
         }
     }
 
