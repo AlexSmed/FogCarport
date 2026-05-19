@@ -3,40 +3,32 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Carports</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <title>Fog Carport Form</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
+<div class="header">
+    <div class="logoplace">
+        <a th:href="@{/index}">
+            <img src="/img/Fog.png" class="logoSize">
+        </a>
+    </div>
 
-<h1>Alle carports</h1>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Tagtype</th>
-        <th>Bredde</th>
-        <th>Længde</th>
-        <th>Pris</th>
-        <th>Status</th>
-    </tr>
-    </thead>
+</div>
 
-    <tbody>
-    <tr th:each="carport : ${carports}">
-        <td th:text="${carport.carport_id}"></td>
-        <td th:text="${carport.tagtype}"></td>
-        <td th:text="${carport.carport_bredde}"></td>
-        <td th:text="${carport.carport_laengde}"></td>
-        <td th:text="${carport.pris}"></td>
-        <td th:text="${carport.status}"></td>
-    </tr>
-    </tbody>
-</table>
+<ul class="menu">
+    <div class="left">
+        <li><a th:href="@{/allCarports}">Se alle ordre</a></li>
+        <li><a th:href="@{/showCustomers}"> Indsæt penge</a></li>
+        <li><a th:href="@{/login}">Materialeliste</a></li>
+    </div>
 
-</body>
-</html>
+</ul>
+
 
 </body>
 </html>

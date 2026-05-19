@@ -39,9 +39,11 @@ public class CarportController {
           StyklisteController styklisteController = new StyklisteController();
           styklisteController.udregningAfStolper(length, connectionPool);
           styklisteController.udregningAfSpær(width, connectionPool);
+
           ArrayList<Materiale> materialer = new ArrayList<>();
           materialer.add( styklisteController.udregningAfStolper(length, connectionPool));
           materialer.add( styklisteController.udregningAfSpær(width, connectionPool));
+
           ArrayList<Materiale> remme = new ArrayList<>();
           for(Materiale rem: remme){
               materialer.add(rem);
