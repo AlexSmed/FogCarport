@@ -3,6 +3,7 @@ package app.controllers;
 import app.entities.Materiale;
 import app.exception.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderlinjeMapper;
 import app.persistence.StyklisteMapper;
 
 import java.util.ArrayList;
@@ -201,5 +202,14 @@ public class StyklisteController {
         double dækProcent = salgsPris / kostPris * 100 - 100;
 
         return dækProcent;
+    }
+    public static ArrayList<Materiale> stykListeMaterialer(int lengthInCm, int widthInCm, ConnectionPool connectionPool) throws DatabaseException {
+        ArrayList<Materiale> stykListeMaterialer = udregningAfRemme(lengthInCm, connectionPool);
+        stykListeMaterialer.add(udregningAfSpær(widthInCm, connectionPool));
+        stykListeMaterialer.add(udregningAfStolper(lengthInCm, connectionPool));
+        return stykListeMaterialer;
+    }
+    public void createOrderlines(){
+
     }
 }

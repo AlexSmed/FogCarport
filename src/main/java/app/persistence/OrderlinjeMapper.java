@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class OrderlinjeMapper {
 
     public static void createOrderlinje(int stykliste_id, int vare_nummer, int antal, ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "INSERT INTO orderlinje (stykliste_id, vare_nummer, antal) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO ordrelinjer (stykliste_id, vare_nummer, antal) VALUES (?, ?, ?)";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
