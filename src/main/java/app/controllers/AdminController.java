@@ -2,7 +2,6 @@ package app.controllers;
 
 import app.entities.Carport;
 import app.persistence.AdminMapper;
-import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -14,6 +13,9 @@ public class AdminController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/allCarports", ctx ->
                 AdminController.showAllCarports(ctx, connectionPool));
+
+        app.get("unpaidCarports", ctx ->
+                AdminController.getAllOrdersWithUnpaidStatus(ctx, connectionPool));
     }
 
     public static void showAllCarports(Context ctx, ConnectionPool connectionPool)
@@ -31,10 +33,10 @@ public class AdminController {
 
         AdminMapper adminMapper = new AdminMapper(connectionPool);
 
-        List<Carport> unPaidCarports = adminMapper.getAllCarportsWithUpaidStatus(connectionPool);
+        List<Carport> unpaidCarports = adminMapper.getAllCarportsWithUnpaidStatus(connectionPool);
 
-        ctx.attribute("unPaidCarports", unPaidCarports);
+        ctx.attribute("carports", unpaidCarports);
 
-        ctx.render("adminPage.html");
+        ctx.render("seeAllCarports.html");
     }
 }
