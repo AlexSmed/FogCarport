@@ -105,6 +105,13 @@ form {
     align-items: center;
 }
 
+.balance-form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
 /* Input rows */
 .input-group {
     display: flex;
