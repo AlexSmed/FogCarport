@@ -1,9 +1,6 @@
 package app.controllers;
 
-import app.entities.Carport;
-import app.entities.Materiale;
-import app.entities.Stykliste;
-import app.entities.Users;
+import app.entities.*;
 import app.exception.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
@@ -23,7 +20,8 @@ public class CarportController {
         app.post("/order", ctx -> orderCarport(ctx, connectionPool));
         app.get("/myOrders", ctx -> getCustomeOrders(ctx, connectionPool));
         app.post("/payOrder", ctx -> updateStatus(ctx, connectionPool));
-
+        app.get("/seStykliste", ctx -> seStykliste(ctx, connectionPool));
+        app.post("/seStykliste", ctx -> seStykliste(ctx, connectionPool));
 
 
     }
@@ -48,6 +46,7 @@ public class CarportController {
 
           CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
           ctx.result("Carport oprettet!");
+
       }catch (DatabaseException e) {
           ctx.result("Fejl: " + e.getMessage());
         }
@@ -73,6 +72,25 @@ public class CarportController {
         CarportMapper.updateStatus(carportId, connectionPool);
 
         ctx.redirect("/myOrders");
+    }
+
+    public static void seStykliste(Context ctx, ConnectionPool connectionPool) {
+
+        String param = ctx.queryParam("stykliste_id");
+
+        if (param == null) {
+            ctx.status(400);
+            ctx.result("Mangler stykliste_id");
+            return;
+        }
+
+        int stykliste_id = Integer.parseInt(param);
+
+        List<Orderlinje> stykliste =
+                OrderlinjeMapper.getStykliste(stykliste_id, connectionPool);
+
+        ctx.attribute("stykliste", stykliste);
+        ctx.render("stykliste.html");
     }
 
 }
