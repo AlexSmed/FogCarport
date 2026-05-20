@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mine ordre</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+<header>
+    <div class="header">
+        <div class="logoplace">
+            <a th:href="@{/index}">
+                <img src="/img/Fog.png" class="logoSize">
+            </a>
+        </div>
+    </div>
+
+    <ul class="menu">
+        <div class="left">
+            <li><a th:href="@{/allCarports}">Alle ordre</a></li>
+            <li><a th:href="@{/unpaidCarports}">Ubetalte ordre</a></li>
+        </div>
+    </ul>
+</header>
+
+<table class="order-table">
+    <tr>
+        <th>ID</th>
+        <th>Fornavn</th>
+        <th>Efternavn</th>
+        <th>Email</th>
+        <th>Saldo</th>
+        <th>Indsæt penge</th>
+    </tr>
+
+    <th:block th:each="user : ${customers}">
+
+        <tr>
+            <td th:text="${user.bruger_id}"></td>
+            <td th:text="${user.fornavn}"></td>
+            <td th:text="${user.efternavn}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.saldo}"></td>
+            <td>
+                <form class="balance-form" th:action="@{/updateBalance}" method="post">
+                    <input type="hidden" name="brugerId" th:value="${user.bruger_id}">
+                    <input name="amount" type="number" placeholder="Indtast beløb">
+                    <input type="submit" value="Indsæt penge">
+
+                </form>
+            </td>
+        </tr>
+    </th:block>
+</table>
+
+</body>
+
+</html>
