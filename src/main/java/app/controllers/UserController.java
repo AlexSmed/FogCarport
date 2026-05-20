@@ -32,6 +32,10 @@ public class UserController {
         String lastname = ctx.formParam("lastname");
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
+        String adresse = ctx.formParam("adresse");
+        String by = ctx.formParam("by");
+        int postNummer = Integer.parseInt(ctx.formParam("postNummer"));
+
 
 
         String error = validateUser(firstname, lastname, email, password);
@@ -41,7 +45,8 @@ public class UserController {
         } else {
 
             try {
-                UserMapper.createUser(firstname, lastname, email, password, connectionPool);
+                UserMapper.createUser(firstname, lastname, email, password,adresse, connectionPool);
+                UserMapper.createAdresse(by,postNummer,connectionPool);
                 ctx.render("index.html");
             } catch (DatabaseException e) {
                 ctx.attribute("msg", e.getMessage());

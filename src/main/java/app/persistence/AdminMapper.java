@@ -16,7 +16,7 @@ public class AdminMapper {
         this.connectionPool = connectionPool;
     }
 
-    public List<Carport> getAllCarports(ConnectionPool connectionPool) {
+    public static List<Carport> getAllCarports(ConnectionPool connectionPool) {
         List<Carport> carports = new ArrayList<>();
         String sql = "SELECT * FROM carport";
 
@@ -44,7 +44,7 @@ public class AdminMapper {
         return carports;
     }
 
-    public List<Carport> getAllCarportsWithUnpaidStatus(ConnectionPool connectionPool) {
+    public static List<Carport> getAllCarportsWithUnpaidStatus(ConnectionPool connectionPool) {
         List<Carport> unpaidCarports = new ArrayList<>();
         String sql = "SELECT * FROM public.carport WHERE status IS DISTINCT FROM 'BETALT'";
 
