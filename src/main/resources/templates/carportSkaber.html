@@ -24,15 +24,14 @@
     <ul class="menu">
         <div class="left">
             <li><a th:href="@{/myOrders}">Mine ordre</a></li>
-            <li><a th:href="@{/login}"> Login </a></li>
-            <li><a th:href="@{/createAccount}"> Opret bruger </a></li>
+            <li><a th:href="@{/logout}">Log ud</a></li>
         </div>
     </ul>
 
 </header>
 
 <!-- Main container -->
-<div class="container">
+<div class="selector-container">
     <div class="form-box">
         <form th:action="@{/}" method="post">
         <h2>Carport med fladt tag</h2>
@@ -82,12 +81,6 @@
                     <option value="540">540 cm</option>
                     <option value="570">570 cm</option>
                     <option value="600">600 cm</option>
-                    <option value="630">630 cm</option>
-                    <option value="660">660 cm</option>
-                    <option value="690">690 cm</option>
-                    <option value="720">720 cm</option>
-                    <option value="750">750 cm</option>
-                    <option value="780">780 cm</option>
                     <!-- Add more options as needed -->
                 </select>
             </div>

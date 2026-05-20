@@ -7,11 +7,14 @@ public class Orderlinje {
     private int vare_nummer;
     private int antal;
 
-    public Orderlinje(int orderlinje_id, int stykliste_id, int vare_nummer, int antal) {
+    private Materiale materiale;
+
+    public Orderlinje(int orderlinje_id, int stykliste_id, int vare_nummer, int antal, Materiale materiale) {
         this.orderlinje_id = orderlinje_id;
         this.stykliste_id = stykliste_id;
         this.vare_nummer = vare_nummer;
         this.antal = antal;
+        this.materiale = materiale;
     }
 
     public int getOrderlinje_id() {
@@ -44,5 +47,9 @@ public class Orderlinje {
 
     public void setAntal(int antal) {
         this.antal = antal;
+    }
+
+    public Materiale getMateriale() {
+        return materiale;
     }
 }

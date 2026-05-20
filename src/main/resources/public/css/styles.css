@@ -211,3 +211,92 @@ button:hover {
     color: green;
     font-weight: bold;
 }
+
+/*-----------*/
+/*  carport  */
+/*-----------*/
+
+/* Selector Container */
+.selector-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f6f9;
+    padding: 20px;
+}
+
+/* Formular boks */
+.form-box {
+    background-color: white;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Overskrift */
+.form-box h2 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+}
+
+/* Beskrivelse */
+.form-box p {
+    margin-bottom: 25px;
+    text-align: center;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Form grupper */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Select */
+.form-group select {
+    width: 100%;
+    padding: 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    font-size: 16px;
+    background-color: white;
+}
+
+/* Knap */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: #2d89ef;
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover */
+.submit-btn:hover {
+    background-color: #1b5fbf;
+}
