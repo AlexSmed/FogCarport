@@ -45,8 +45,8 @@ public class UserMapper {
         }
     }
 
-    public static void createUser(String firstname,String lastname, String email, String password, ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "INSERT INTO brugere (fornavn, efternavn, email, kodeord) VALUES (?, ?, ?, ?)";
+    public static void createUser(String firstname,String lastname, String email, String password, String adresse, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "INSERT INTO brugere (fornavn, efternavn, email, kodeord, adresse) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -54,6 +54,7 @@ public class UserMapper {
             ps.setString(2, lastname);
             ps.setString(3, email);
             ps.setString(4, password);
+            ps.setString(5, adresse);
 
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected != 1) {
@@ -64,4 +65,23 @@ public class UserMapper {
             throw new DatabaseException("Kunne ikke oprette bruger", e.getMessage());
         }
     }
+    public static void createAdresse(String by, int postNummer, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "INSERT INTO postNummer (by, postNummer) VALUES (?, ?)";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, by);
+            ps.setInt(2, postNummer);
+
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1) {
+                throw new DatabaseException("Fejl ved oprettelse af ny adresse");
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke oprette adresse", e.getMessage());
+        }
+    }
+
 }
