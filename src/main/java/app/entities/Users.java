@@ -10,6 +10,19 @@ public class Users {
     private int bruger_id;
     private double saldo;
     private boolean er_admin;
+    private String addresse;
+
+    public Users(String fornavn, String lastname, String email, String kodeord,
+                 int bruger_id, int saldo, boolean er_admin, String addresse) {
+        this.fornavn = fornavn;
+        this.lastname = lastname;
+        this.email = email;
+        this.kodeord = kodeord;
+        this.bruger_id = bruger_id;
+        this.saldo = saldo;
+        this.er_admin = er_admin;
+        this.addresse = addresse;
+    }
 
     public Users(String firstname, String efternavn, String email, String password, int bruger_id, double saldo, boolean er_admin) {
         this.fornavn = firstname;

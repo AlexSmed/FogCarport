@@ -116,7 +116,7 @@ class CarportMapperTest {
     void getAllCarports() {
         List<Carport> carports = new ArrayList<>();
 
-         carports = carportMapper.getAllCarports(connectionPool);
+        carports = AdminMapper.getAllCarports(connectionPool);
 
         assertEquals(1, carports.size());
 
@@ -126,7 +126,7 @@ class CarportMapperTest {
     @Test
     void getAllCarportsWithUpaidStatus() {
         List<Carport> unPaidCarports = new ArrayList<>();
-        unPaidCarports = carportMapper.getAllCarportsWithUpaidStatus(connectionPool);
+        unPaidCarports = AdminMapper.getAllCarportsWithUnpaidStatus(connectionPool);
 
         assertEquals(1, unPaidCarports.size());
 
