@@ -51,8 +51,12 @@
 
 
             <td>
-                <form th:action="@{/seStykliste}" method="get">
-                    <input type="hidden" name="stykliste_id" th:value="${order.stykliste_id}">
+                <form th:action="@{/seStykliste}" method="get"
+                      th:if="${order.status == 'BETALT'}">
+
+                    <input type="hidden" name="stykliste_id"
+                           th:value="${order.stykliste_id}">
+
                     <button type="submit">Stykliste</button>
                 </form>
             </td>
