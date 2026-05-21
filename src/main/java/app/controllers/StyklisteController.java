@@ -8,6 +8,8 @@ import app.persistence.StyklisteMapper;
 
 import java.util.ArrayList;
 
+
+
 public class StyklisteController {
     private final static String USER = "postgres";
     private final static String PASSWORD = "postgres";
@@ -181,16 +183,16 @@ public class StyklisteController {
         }
         ArrayList<Integer> ids = new ArrayList<>();
 
-        for (Materiale remmeMateriale : remme) {
+        for (Materiale remmeMateriale : remmeMaterialer) {
 
             if (ids.contains(remmeMateriale.getVareNummer())) {
+                //remmeMaterialer.remove(remmeMateriale);
                 remmeMateriale.setAntal(remmeMateriale.getAntal() + 1);
             } else {
                 ids.add(remmeMateriale.getVareNummer());
             }
-
-            return remmeMaterialer;
         }
+        return remmeMaterialer;
     }
 
         public static double udregnDækprocent ( int lengthInCm, int widthInCm, ConnectionPool connectionPool) throws
@@ -198,7 +200,7 @@ public class StyklisteController {
 
 
             ArrayList<Materiale> materiales =
-                    StyklisteController.udregningAfRemme(540, connectionPool);
+                    udregningAfRemme(540, connectionPool);
             double kostPris = 0;
             double salgsPris = 0;
             for (Materiale materiale : materiales) {
@@ -217,7 +219,6 @@ public class StyklisteController {
 
             return dækProcent;
         }
-    }
 
     public static ArrayList<Materiale> stykListeMaterialer(int lengthInCm, int widthInCm, ConnectionPool connectionPool) throws DatabaseException {
         ArrayList<Materiale> stykListeMaterialer = udregningAfRemme(lengthInCm, connectionPool);
@@ -225,7 +226,10 @@ public class StyklisteController {
         stykListeMaterialer.add(udregningAfStolper(lengthInCm, connectionPool));
         return stykListeMaterialer;
     }
+    /*
     public void createOrderlines(){
 
     }
+
+     */
 }
