@@ -47,6 +47,7 @@ public class CarportController {
 
           CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
           ctx.result("Carport oprettet!");
+          ctx.render("carportSkaber");
 
       }catch (DatabaseException e) {
           ctx.result("Fejl: " + e.getMessage());
