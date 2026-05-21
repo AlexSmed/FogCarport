@@ -181,7 +181,7 @@ public class StyklisteController {
         }
         ArrayList<Integer> ids = new ArrayList<>();
 
-        for (Materiale remmeMateriale : remme) {
+        for (Materiale remmeMateriale : remmeMaterialer) {
 
             if (ids.contains(remmeMateriale.getVareNummer())) {
                 remmeMateriale.setAntal(remmeMateriale.getAntal() + 1);
@@ -191,6 +191,7 @@ public class StyklisteController {
 
             return remmeMaterialer;
         }
+        return remmeMaterialer;
     }
 
         public static double udregnDækprocent ( int lengthInCm, int widthInCm, ConnectionPool connectionPool) throws
@@ -217,12 +218,10 @@ public class StyklisteController {
 
             return dækProcent;
         }
-    }
-
     public static ArrayList<Materiale> stykListeMaterialer(int lengthInCm, int widthInCm, ConnectionPool connectionPool) throws DatabaseException {
-        ArrayList<Materiale> stykListeMaterialer = udregningAfRemme(lengthInCm, connectionPool);
-        stykListeMaterialer.add(udregningAfSpær(widthInCm, connectionPool));
-        stykListeMaterialer.add(udregningAfStolper(lengthInCm, connectionPool));
+        ArrayList<Materiale> stykListeMaterialer = StyklisteController.udregningAfRemme(lengthInCm, connectionPool);
+        stykListeMaterialer.add(StyklisteController.udregningAfSpær(widthInCm, connectionPool));
+        stykListeMaterialer.add(StyklisteController.udregningAfStolper(lengthInCm, connectionPool));
         return stykListeMaterialer;
     }
     public void createOrderlines(){
