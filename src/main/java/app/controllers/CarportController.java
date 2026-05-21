@@ -12,6 +12,7 @@ import io.javalin.http.Context;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CarportController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
@@ -93,5 +94,16 @@ public class CarportController {
         ctx.attribute("stykliste", stykliste);
         ctx.render("stykliste.html");
     }
+    /*
+    public static void showOrder(Context ctx)
+    {
+        // TODO: Create a SVG Drawing and inject into the showOrder.html template as a String
+        Locale.setDefault(new Locale("US"));
+        CarportSvg svg = new CarportSvg(600, 780);
 
+        ctx.attribute("svg", svg.toString());
+        ctx.render("showOrder.html");
+    }
+
+     */
 }
