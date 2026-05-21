@@ -181,15 +181,28 @@ public class StyklisteController {
                 case 600 -> remmeMaterialer.add(StyklisteMapper.getMaterialeFromVareNummer(13, connectionPool));
             }
         }
-        ArrayList<Integer> ids = new ArrayList<>();
+        for (int i = 0; i < remmeMaterialer.size(); i++) {
 
-        for (Materiale remmeMateriale : remmeMaterialer) {
+            for (int j = i + 1; j < remmeMaterialer.size(); j++) {
 
-            if (ids.contains(remmeMateriale.getVareNummer())) {
-                //remmeMaterialer.remove(remmeMateriale);
-                remmeMateriale.setAntal(remmeMateriale.getAntal() + 1);
-            } else {
-                ids.add(remmeMateriale.getVareNummer());
+                if (remmeMaterialer.get(i).getVareNummer()
+                        == remmeMaterialer.get(j).getVareNummer()) {
+
+                    remmeMaterialer.get(i).setAntal(
+                            remmeMaterialer.get(i).getAntal()
+                                    + remmeMaterialer.get(j).getAntal());
+                    double nySalgsPris = remmeMaterialer.get(i).getSalgs_pris()
+                            + remmeMaterialer.get(j).getSalgs_pris();
+                    remmeMaterialer.get(i).setKost_pris
+                            (nySalgsPris);
+                    double nyKostPris = remmeMaterialer.get(i).getKost_pris()
+                            + remmeMaterialer.get(j).getKost_pris();
+                    remmeMaterialer.get(i).setKost_pris(nyKostPris);
+
+                    remmeMaterialer.remove(j);
+
+                    j--;
+                }
             }
         }
         return remmeMaterialer;
