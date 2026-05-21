@@ -15,7 +15,7 @@ public class Users {
     public Users(String fornavn, String lastname, String email, String kodeord,
                  int bruger_id, int saldo, boolean er_admin, String addresse) {
         this.fornavn = fornavn;
-        this.lastname = lastname;
+        this.efternavn = lastname;
         this.email = email;
         this.kodeord = kodeord;
         this.bruger_id = bruger_id;

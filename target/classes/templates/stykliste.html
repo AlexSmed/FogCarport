@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Min styklisyt</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="header">
+        <div class="logoplace">
+            <a th:href="@{/index}">
+                <img src="/img/Fog.png" class="logoSize">
+            </a>
+        </div>
+    </div>
+
+    <ul class="menu">
+        <div class="left">
+            <li><a th:href="@{/carportSkaber}"> Lav carport</a></li>
+            <li><a th:href="@{/myOrders}">Mine ordre</a></li>
+            <li><a th:href="@{/logout}">Log ud</a></li>
+        </div>
+    </ul>
+</header>
+
+<div class="container">
+    <h1>Mine stykliste</h1>
+
+    <p th:if="${message}" th:text="${message}" class="message"></p>
+
+    <table class="order-table">
+        <tr>
+            <th>Vare navn</th>
+            <th>Vare Nummer</th>
+            <th>Beskrivelse</th>
+            <th>længde</th>
+            <th>antal</th>
+        </tr>
+
+        <tr th:each="linje : ${stykliste}">
+            <td th:text="${linje.materiale.navn}"></td>
+            <td th:text="${linje.vare_nummer}"></td>
+            <td th:text="${linje.materiale.vare_beskrivelse}"></td>
+            <td th:text="${linje.materiale.laengde} + 'cm' "></td>
+            <td th:text="${linje.antal}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
