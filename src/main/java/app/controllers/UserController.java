@@ -71,7 +71,7 @@ public class UserController {
             ctx.sessionAttribute("currentUser", user);
             ctx.sessionAttribute("bruger_id", user.getBruger_id());
 
-            if (user.isAdmin()) {
+            if (user.isEr_admin()) {
                 ctx.render("adminPage.html");
             } else {
                 user = ctx.sessionAttribute("currentUser");
