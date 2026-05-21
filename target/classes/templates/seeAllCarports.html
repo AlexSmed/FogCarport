@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Fog Carport Form</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+<header>
+<div class="header">
+    <div class="logoplace">
+        <a th:href="@{/index}">
+            <img src="/img/Fog.png" class="logoSize">
+        </a>
+    </div>
+</div>
+
+    <ul class="menu">
+        <div class="left">
+            <li><a th:href="@{/allCarports}">Alle ordre</a></li>
+            <li><a th:href="@{/unpaidCarports}">Ubetalte ordre</a></li>
+        </div>
+    </ul>
+</header>
+
+<table class="order-table">
+    <tr>
+        <th>ID</th>
+        <th>Bredde</th>
+        <th>Længde</th>
+        <th>Pris</th>
+        <th>Status</th>
+    </tr>
+
+    <th:block th:each="carport : ${carports}">
+        <tr>
+            <td th:text="${carport.carport_id}"></td>
+            <td th:text="${carport.carport_bredde}"></td>
+            <td th:text="${carport.carport_laengde}"></td>
+            <td th:text="${carport.pris}"></td>
+            <td th:text="${carport.status}"></td>
+        </tr>
+    </th:block>
+</table>
+
+</body>
+
+</html>
