@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class Materiale {
     private int vareNummer;
     private String navn;
@@ -27,6 +29,20 @@ public class Materiale {
         this.kost_pris = kost_pris;
         this.salgs_pris = salgs_pris;
         this.antal = antal;
+    }
+    public Materiale(int vareNummer, String navn, String vare_beskrivelse, String hjaelpe_tekst,
+                     int laengde, int bredde, int hoejde, double kost_pris, double salgs_pris) {
+
+        this.vareNummer = vareNummer;
+        this.navn = navn;
+        this.vare_beskrivelse = vare_beskrivelse;
+        this.hjaelpe_tekst = hjaelpe_tekst;
+        this.laengde = laengde;
+        this.bredde = bredde;
+        this.hoejde = hoejde;
+        this.kost_pris = kost_pris;
+        this.salgs_pris = salgs_pris;
+
     }
     public int getAntal(){
         return antal;
@@ -110,4 +126,15 @@ public class Materiale {
     private int bredde;
     private int hoejde;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Materiale materiale = (Materiale) o;
+        return vareNummer == materiale.vareNummer && laengde == materiale.laengde && antal == materiale.antal && Double.compare(kost_pris, materiale.kost_pris) == 0 && Double.compare(salgs_pris, materiale.salgs_pris) == 0 && bredde == materiale.bredde && hoejde == materiale.hoejde && Objects.equals(navn, materiale.navn) && Objects.equals(vare_beskrivelse, materiale.vare_beskrivelse) && Objects.equals(hjaelpe_tekst, materiale.hjaelpe_tekst);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vareNummer, navn, vare_beskrivelse, hjaelpe_tekst, laengde, antal, kost_pris, salgs_pris, bredde, hoejde);
+    }
 }

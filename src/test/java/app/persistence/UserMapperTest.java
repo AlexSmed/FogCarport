@@ -96,7 +96,8 @@ class UserMapperTest {
     void createUser() throws DatabaseException {
 
         userMapper.createUser("Harry", "Kane",
-                "Kane@gmail.com", "Kode123¤¤", connectionPool);
+                "Kane@gmail.com", "Kode123¤¤",
+                "ved grænsen",connectionPool);
 
         Users user = userMapper.login("Kane@gmail.com", "Kode123¤¤", connectionPool);
         assertNotNull(user);

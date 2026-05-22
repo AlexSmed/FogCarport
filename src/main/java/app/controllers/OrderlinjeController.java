@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.entities.Orderlinje;
 import app.exception.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderlinjeMapper;
@@ -15,10 +16,7 @@ public class OrderlinjeController {
             OrderlinjeMapper.createOrderlinje(stykliste_id,vare_nummer,antal,connectionPool);
 
         } catch (DatabaseException e) {
-
         }
-
-
 
     }
 
