@@ -37,7 +37,6 @@ public class UserController {
         int postNummer = Integer.parseInt(ctx.formParam("postNummer"));
 
 
-
         String error = validateUser(firstname, lastname, email, password);
         if (!error.isEmpty()) {
             ctx.attribute("msg", error);
@@ -45,8 +44,8 @@ public class UserController {
         } else {
 
             try {
-                UserMapper.createUser(firstname, lastname, email, password,adresse, connectionPool);
-                UserMapper.createAdresse(by,postNummer,connectionPool);
+                UserMapper.createUser(firstname, lastname, email, password, adresse, connectionPool);
+                UserMapper.createAdresse(by, postNummer, connectionPool);
                 ctx.render("index.html");
             } catch (DatabaseException e) {
                 ctx.attribute("msg", e.getMessage());
@@ -92,12 +91,12 @@ public class UserController {
     }
 
 
-    public static String validateUser(String firstname, String lastname,  String email, String password) {
+    public static String validateUser(String firstname, String lastname, String email, String password) {
         if (firstname.isEmpty()) {
             return "Fornavn skal udfyldes";
-        }  else if (lastname.isEmpty()) {
-            return "Efternavn skal udfyldes";}
-        else if (email.isEmpty()) {
+        } else if (lastname.isEmpty()) {
+            return "Efternavn skal udfyldes";
+        } else if (email.isEmpty()) {
             return "email skal udfyldes";
         } else if (!email.contains("@")) {
             return "email mangler @";
