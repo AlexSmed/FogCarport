@@ -11,25 +11,19 @@
 
 <header>
     <div class="header">
+
         <div class="logoplace">
-            <a th:href="@{/index}">
+            <a th:href="@{/login}">
                 <img src="/img/Fog.png" class="logoSize">
             </a>
         </div>
 
+        <ul class="menu">
+            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/createAccount}">Opret bruger</a></li>
+        </ul>
+
     </div>
-
-    <ul class="menu">
-        <div class="left">
-            <li><a th:href="@{/login}"> Login </a></li>
-            <li><a th:href="@{/createAccount}"> Opret bruger </a></li>
-        </div>
-
-        </div>
-
-    </ul>
-
-
 </header>
 <main>
     <div class="login-container">
