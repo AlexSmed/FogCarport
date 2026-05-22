@@ -98,7 +98,7 @@ class StyklisteControllerTest {
                 StyklisteController.udregningAfSpær(540, connectionPool).getKost_pris();
 
         double dækProcent = salgsPris / kostPris * 100 - 100;
-        System.out.println(dækProcent);
+        System.out.println(salgsPris);
         assertEquals(dækProcent, StyklisteController.udregnDækprocent(540,540, connectionPool));
     }
 
