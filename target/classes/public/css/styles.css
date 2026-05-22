@@ -317,11 +317,6 @@ button:hover {
     cursor: pointer;
 }
 
-.align-right {
-    text-align: right;
-}
-
-
 /* Hover */
 .submit-btn:hover {
     background-color: #1b5fbf;
