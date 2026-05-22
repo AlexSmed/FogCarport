@@ -3,31 +3,46 @@ package app.entities;
 public class Materiale {
     private int vareNummer;
     private String navn;
-    private String vare_beskrivelse;
-    private String hjaelpe_tekst;
+    private String beskrivelse;
+    private String hjaelpeTekst;
     private int laengde;
+    private int bredde;
+    private int hoejde;
     private int antal;
-    private double kost_pris;
+    private double kostpris;
+    private double salgspris;
 
     public Materiale() {
     }
 
-    private double salgs_pris;
 
-    public Materiale(int vareNummer, String navn, String vare_beskrivelse, String hjaelpe_tekst,
-                     int laengde, int bredde, int hoejde, double kost_pris, double salgs_pris, int antal) {
+
+    public Materiale(int vareNummer, String navn, String beskrivelse, String hjaelpe_tekst,
+                     int laengde, int bredde, int hoejde, double kostpris, double salgspris, int antal) {
 
         this.vareNummer = vareNummer;
         this.navn = navn;
-        this.vare_beskrivelse = vare_beskrivelse;
-        this.hjaelpe_tekst = hjaelpe_tekst;
+        this.beskrivelse = beskrivelse;
+        this.hjaelpeTekst = hjaelpe_tekst;
         this.laengde = laengde;
         this.bredde = bredde;
         this.hoejde = hoejde;
-        this.kost_pris = kost_pris;
-        this.salgs_pris = salgs_pris;
+        this.kostpris = kostpris;
+        this.salgspris = salgspris;
         this.antal = antal;
     }
+
+    public Materiale(String navn, String beskrivelse, String hjaelpetekst, int laengde, int bredde, int hoejde, double kostpris, double salgspris) {
+        this.navn = navn;
+        this.beskrivelse = beskrivelse;
+        this.hjaelpeTekst = hjaelpetekst;
+        this.laengde = laengde;
+        this.bredde = bredde;
+        this.hoejde = hoejde;
+        this.kostpris = kostpris;
+        this.salgspris = salgspris;
+    }
+
     public int getAntal(){
         return antal;
     }
@@ -51,20 +66,20 @@ public class Materiale {
         this.navn = navn;
     }
 
-    public String getVare_beskrivelse() {
-        return vare_beskrivelse;
+    public String getbeskrivelse() {
+        return beskrivelse;
     }
 
-    public void setVare_beskrivelse(String vare_beskrivelse) {
-        this.vare_beskrivelse = vare_beskrivelse;
+    public void setbeskrivelse(String beskrivelse) {
+        this.beskrivelse = beskrivelse;
     }
 
-    public String getHjaelpe_tekst() {
-        return hjaelpe_tekst;
+    public String getHjaelpeTekst() {
+        return hjaelpeTekst;
     }
 
-    public void setHjaelpe_tekst(String hjaelpe_tekst) {
-        this.hjaelpe_tekst = hjaelpe_tekst;
+    public void setHjaelpeTekst(String hjaelpeTekst) {
+        this.hjaelpeTekst = hjaelpeTekst;
     }
 
     public int getLaengde() {
@@ -91,23 +106,21 @@ public class Materiale {
         this.hoejde = hoejde;
     }
 
-    public double getKost_pris() {
-        return kost_pris;
+    public double getKostpris() {
+        return kostpris;
     }
 
-    public void setKost_pris(double kost_pris) {
-        this.kost_pris = kost_pris;
+    public void setKostpris(double kostpris) {
+        this.kostpris = kostpris;
     }
 
-    public double getSalgs_pris() {
-        return salgs_pris;
+    public double getSalgspris() {
+        return salgspris;
     }
 
-    public void setSalgs_pris(double salgs_pris) {
-        this.salgs_pris = salgs_pris;
+    public void setSalgspris(double salgspris) {
+        this.salgspris = salgspris;
     }
 
-    private int bredde;
-    private int hoejde;
 
 }

@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.Carport;
+import app.entities.Materiale;
 import app.entities.Users;
 
 import java.sql.Connection;
@@ -96,7 +97,7 @@ public class AdminMapper {
         return allCustomers;
     }
 
-    public void updateCustomerBalance(double saldo, int brugerId, ConnectionPool connectionPool){
+    public void updateCustomerBalance(double saldo, int brugerId, ConnectionPool connectionPool) {
         String sql = "UPDATE brugere SET saldo = ? WHERE bruger_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
@@ -123,7 +124,7 @@ public class AdminMapper {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                 return rs.getInt("saldo");
+                return rs.getInt("saldo");
             }
 
         } catch (SQLException e) {
@@ -134,5 +135,54 @@ public class AdminMapper {
 
     }
 
+    public List seAlleMaterialer(ConnectionPool connectionPool) {
+        List<Materiale> alleMaterialer = new ArrayList<>();
+        String sql = "SELECT * FROM public.materialer";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String navn = rs.getString("navn");
+                String beskrivelse = rs.getString("vare_beskrivelse");
+                String hjaelpeTekst = rs.getString("hjaelpe_tekst");
+                int laengde = rs.getInt("laengde");
+                int bredde = rs.getInt("bredde");
+                int hoejde = rs.getInt("hoejde");
+                double kostpris = rs.getInt("kost_pris");
+                double salgspris = rs.getInt("salgs_pris");
+
+                Materiale materiale = new Materiale(navn, beskrivelse, hjaelpeTekst, laengde, bredde, hoejde, kostpris, salgspris);
+                alleMaterialer.add(materiale);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return alleMaterialer;
+    }
+
+    public Materiale tilfoejNyMateriale(String navn, String beskrivelse, String hjaelpeTekst, int laengde, int bredde, int hoejde, double kostpris, double salgspris, ConnectionPool connectionPool) {
+        Materiale materialeListe = new Materiale(navn, beskrivelse, hjaelpeTekst, laengde, bredde, hoejde, kostpris, salgspris);
+        String sql = "INSERT INTO materialer(navn, vare_beskrivelse, hjaelpe_tekst, laengde, bredde, hoejde, kost_pris, salgs_pris) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, navn);
+            ps.setString(2, beskrivelse);
+            ps.setString(3, hjaelpeTekst);
+            ps.setInt(4, laengde);
+            ps.setInt(5, bredde);
+            ps.setInt(6, hoejde);
+            ps.setDouble(7, kostpris);
+            ps.setDouble(8, salgspris);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Materiale(navn, beskrivelse, hjaelpeTekst, laengde, bredde, hoejde, kostpris, salgspris);
+    }
 
 }
