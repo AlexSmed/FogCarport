@@ -1,26 +1,18 @@
 package app.persistence;
 
-import app.entities.Materiale;
 import app.exception.DatabaseException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-
-import app.entities.Stykliste;
-import org.junit.jupiter.api.*;
-
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StyklisteMapperTest {
+class OrderlinjeMapperTest {
 
     private static ConnectionPool connectionPool;
-    private StyklisteMapper styklisteMapper;
 
     @BeforeAll
     static void beforeAll() {
@@ -47,13 +39,13 @@ class StyklisteMapperTest {
             // =========================
 
             stmt.execute("""
-                CREATE TABLE test.stykliste
-                (LIKE public.stykliste INCLUDING ALL)
+                CREATE TABLE test.materialer
+                (LIKE public.materialer INCLUDING ALL)
             """);
 
             stmt.execute("""
-                CREATE TABLE test.materialer
-                (LIKE public.materialer INCLUDING ALL)
+                CREATE TABLE test.stykliste
+                (LIKE public.stykliste INCLUDING ALL)
             """);
 
             stmt.execute("""
@@ -85,13 +77,20 @@ class StyklisteMapperTest {
             // =========================
             stmt.execute("""
                 INSERT INTO test.materialer
-                (vare_nummer, navn, vare_beskrivelse, hjaelpe_tekst,
-                 hoejde, laengde, bredde,
+                (vare_nummer, navn, vare_beskrivelse,
+                 hjaelpe_tekst, hoejde,
+                 laengde, bredde,
                  kost_pris, salgs_pris)
                 VALUES
-                (100, 'Bræt', 'Trykimprægneret træ', 'Til tag',
-                 50, 2400, 100,
-                 25, 50)
+                (100,
+                 'Bræt',
+                 'Trykimprægneret træ',
+                 'Til carport',
+                 50,
+                 2400,
+                 100,
+                 25,
+                 50)
             """);
 
             // =========================
@@ -100,16 +99,19 @@ class StyklisteMapperTest {
             stmt.execute("""
                 INSERT INTO test.stykliste
                 (stykliste_id, bruger_id)
-                VALUES (1, 1)
+                VALUES
+                (1, 1)
             """);
 
             // =========================
-            // INSERT ORDERLINES
+            // INSERT ORDRELINJE
             // =========================
             stmt.execute("""
                 INSERT INTO test.ordrelinjer
-                (ordrelinje_id, stykliste_id, vare_nummer, antal)
-                VALUES (1, 1, 100, 10)
+                (ordrelinje_id, stykliste_id,
+                 vare_nummer, antal)
+                VALUES
+                (1, 1, 100, 10)
             """);
 
         } catch (Exception e) {
@@ -117,59 +119,29 @@ class StyklisteMapperTest {
             fail("Failed to insert test data");
         }
     }
-    @Test
-    void testConnection() throws SQLException {
-        assertNotNull(connectionPool.getConnection());
-    }
-
 
     @Test
-    void getStyklistFromBruger_id() {
-        Stykliste actual = StyklisteMapper.getStyklist(1,connectionPool).get(0);
-        int expectedBrugerId = 1;
-        int expectedStyklisteId = 1;
-        assertEquals(expectedStyklisteId, actual.getStyklist_id());
-        assertEquals(expectedBrugerId, actual.getBruger_id());
-    }
+    void createOrderlinje() throws DatabaseException {
+        OrderlinjeMapper.createOrderlinje(12,12,12,connectionPool);
+        int expectedSize = 2;
+        int actualSize = OrderlinjeMapper.getAllOrdrelinjer(connectionPool).size();
+        assertEquals(expectedSize, actualSize);
 
-    @Test
-    void getKost_pris() throws DatabaseException {
-        int expected = 25;
-        int actual = StyklisteMapper.getKost_pris(100,connectionPool);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void getMaterialeFromVareNummer() throws DatabaseException {
-        Materiale expected = new Materiale(100, "Bræt", "Trykimprægneret træ", "Til tag",
-                50, 2400, 100,
-                25, 50);
-
-        Materiale actual = StyklisteMapper.getMaterialeFromVareNummer(100, connectionPool);
-        assertEquals(expected.getVareNummer(), actual.getVareNummer());
-        assertEquals(expected.getVare_beskrivelse(), expected.getVare_beskrivelse());
-        assertEquals(expected.getNavn(),actual.getNavn());
-    }
-
-    @Test
-    void getSalgs_pris() throws DatabaseException {
-       int expected = 50;
-       int actual = StyklisteMapper.getSalgs_pris(100,connectionPool);
-       assertEquals(expected, actual);
 
     }
 
     @Test
-    void createStykliste() throws DatabaseException {
-        StyklisteMapper.createStykliste(2,2, connectionPool);
-        int expected = 2;
-        int actual = StyklisteMapper.getHighestStyklistId();
+    void getStykliste() {
+        int expectedAntal = 10;
+        int actualAntal = OrderlinjeMapper.getStykliste
+                (1,connectionPool).get(0).getAntal();
+        assertEquals(expectedAntal,actualAntal);
     }
 
     @Test
-    void getHighestStyklistId() throws DatabaseException {
-        int expected = 1;
-        int actual = StyklisteMapper.getHighestStyklistId();
-        assertEquals(expected, actual);
+    void getAllOrdrelinjer() {
+        int expectedSize = 1;
+        int actualSize = OrderlinjeMapper.getAllOrdrelinjer(connectionPool).size();
+        assertEquals(expectedSize, actualSize);
     }
 }

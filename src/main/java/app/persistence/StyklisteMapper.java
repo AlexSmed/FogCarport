@@ -17,19 +17,21 @@ public class StyklisteMapper {
     private static ConnectionPool connectionPool
             = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 
-    public List<Stykliste> getStyklist(ConnectionPool connectionPool) {
+    public static List<Stykliste> getStyklist(int bruger_id,ConnectionPool connectionPool) {
         List<Stykliste> styklists = new ArrayList<>();
-        String sql = "SELECT * FROM stykliste WHERE bruger_id = ? VALUES (?)";
+        String sql = "SELECT * FROM stykliste WHERE bruger_id = ?";
+
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bruger_id);
             ResultSet rs = ps.executeQuery();
+
 
             while (rs.next()) {
                 int stykliste_id = rs.getInt("stykliste_id");
-                int bruger_id = rs.getInt("bruger_id");
 
-                Stykliste stykliste = new Stykliste(stykliste_id, bruger_id, null);
+                Stykliste stykliste = new Stykliste(stykliste_id, bruger_id);
                 styklists.add(stykliste);
             }
 
