@@ -45,7 +45,7 @@ public class AdminMapper {
 
     public static List<Carport> getAllCarportsWithUnpaidStatus(ConnectionPool connectionPool) {
         List<Carport> unpaidCarports = new ArrayList<>();
-        String sql = "SELECT * FROM public.carport WHERE status IS DISTINCT FROM 'BETALT'";
+        String sql = "SELECT * FROM carport WHERE status IS DISTINCT FROM 'BETALT'";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -73,7 +73,7 @@ public class AdminMapper {
 
     public List<Users> getAllCustomers(ConnectionPool connectionPool) {
         List<Users> allCustomers = new ArrayList<>();
-        String sql = "SELECT * FROM public.brugere WHERE er_admin IS DISTINCT FROM true";
+        String sql = "SELECT * FROM brugere WHERE er_admin IS DISTINCT FROM true";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -96,7 +96,7 @@ public class AdminMapper {
         return allCustomers;
     }
 
-    public void updateCustomerBalance(double saldo, int brugerId, ConnectionPool connectionPool){
+    public double updateCustomerBalance(double saldo, int brugerId, ConnectionPool connectionPool){
         String sql = "UPDATE brugere SET saldo = ? WHERE bruger_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
@@ -110,6 +110,7 @@ public class AdminMapper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return saldo;
     }
 
     public int getCustomerBalance(int brugerId, ConnectionPool connectionPool) {

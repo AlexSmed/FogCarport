@@ -14,6 +14,34 @@ import java.util.List;
 
 public class OrderlinjeMapper {
 
+    public static List<Orderlinje> getAllOrdrelinjer(ConnectionPool connectionPool) {
+        List<Orderlinje> orderlinjeList = new ArrayList<>();
+        String sql = "SELECT * FROM ordrelinjer";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int ordrelinjeId = rs.getInt("ordrelinje_id");
+                int stykliste_id = rs.getInt("stykliste_id");
+                int vare_nummer = rs.getInt("vare_nummer");
+                int antal = rs.getInt("antal");
+
+
+                Orderlinje orderlinje = new Orderlinje(ordrelinjeId, stykliste_id, vare_nummer, antal);
+                orderlinjeList.add(orderlinje);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orderlinjeList;
+    }
+
+
     public static void createOrderlinje(int stykliste_id, int vare_nummer, int antal, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "INSERT INTO ordrelinjer (stykliste_id, vare_nummer, antal) VALUES (?, ?, ?)";
 

@@ -13,6 +13,10 @@ public class Stykliste {
         this.bruger_id = bruger_id;
         this.materialer = materialer;
     }
+    public Stykliste(int styklist_id,int bruger_id){
+        this.styklist_id = styklist_id;
+        this.bruger_id = bruger_id;
+    }
 
     public int getStyklist_id() {
         return styklist_id;
