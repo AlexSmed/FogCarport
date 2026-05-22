@@ -40,13 +40,13 @@ public class CarportController {
           StyklisteMapper.createStykliste(stykliste_id, bruger_id, connectionPool);
           ArrayList<Materiale> materialerIOrderen = StyklisteController.stykListeMaterialer(length, width, connectionPool);
           for(Materiale materiale : materialerIOrderen){
-              pris = pris + materiale.getSalgs_pris();
+              pris = pris + materiale.getSalgs_pris() * materiale.getAntal();
               OrderlinjeMapper.createOrderlinje(stykliste_id, materiale.getVareNummer(), materiale.getAntal(), connectionPool);
           }
 
 
           CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
-          ctx.result("Carport oprettet!");
+          ctx.attribute("successMessage", "Forespørgsel afsendt");
           ctx.render("carportSkaber");
 
       }catch (DatabaseException e) {

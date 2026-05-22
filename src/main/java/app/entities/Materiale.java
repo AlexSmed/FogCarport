@@ -111,7 +111,7 @@ public class Materiale {
         return kost_pris;
     }
 
-    public void setKost_pris(int kost_pris) {
+    public void setKost_pris(double kost_pris) {
         this.kost_pris = kost_pris;
     }
 
@@ -119,7 +119,7 @@ public class Materiale {
         return salgs_pris;
     }
 
-    public void setSalgs_pris(int salgs_pris) {
+    public void setSalgs_pris(double salgs_pris) {
         this.salgs_pris = salgs_pris;
     }
 

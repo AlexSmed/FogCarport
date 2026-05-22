@@ -72,6 +72,7 @@ class StyklisteControllerTest {
         for (Materiale rem: remme){
             assertEquals("rem", rem.getNavn());
             assertEquals("45x195 mm spærtræ", rem.getVare_beskrivelse());
+            assertEquals(1, rem.getAntal());
             assertEquals("Remme i sider,sadles ned i stolper", rem.getHjaelpe_tekst());
         }
     }
@@ -80,29 +81,25 @@ class StyklisteControllerTest {
 
     @Test
     void testDækprocent() throws DatabaseException {
-            ArrayList<Materiale> materiales =
-                    StyklisteController.udregningAfRemme(540, connectionPool);
-            double kostPris = 0;
-            double salgsPris = 0;
-            for (Materiale materiale: materiales){
-                kostPris = materiale.getKost_pris() + kostPris;
+        ArrayList<Materiale> materiales =
+                StyklisteController.udregningAfRemme(540, connectionPool);
+        double kostPris = 0;
+        double salgsPris = 0;
+        for (Materiale materiale: materiales){
+            kostPris = materiale.getKost_pris() + kostPris;
 
-                salgsPris = materiale.getSalgs_pris() + salgsPris;
-            }
-            salgsPris = salgsPris +
-                    StyklisteController.udregningAfStolper(540, connectionPool).getSalgs_pris() +
-                    StyklisteController.udregningAfSpær(540, connectionPool).getSalgs_pris();
-            kostPris = kostPris +
-                    StyklisteController.udregningAfStolper(540, connectionPool).getKost_pris() +
-                    StyklisteController.udregningAfSpær(540, connectionPool).getKost_pris();
+            salgsPris = materiale.getSalgs_pris() + salgsPris;
+        }
+        salgsPris = salgsPris +
+                StyklisteController.udregningAfStolper(540, connectionPool).getSalgs_pris() +
+                StyklisteController.udregningAfSpær(540, connectionPool).getSalgs_pris();
+        kostPris = kostPris +
+                StyklisteController.udregningAfStolper(540, connectionPool).getKost_pris() +
+                StyklisteController.udregningAfSpær(540, connectionPool).getKost_pris();
 
-            double dækningsbidrag = salgsPris - kostPris;
-            double dækProcent = (dækningsbidrag / salgsPris) * 100;
-
-
-
-            System.out.println(dækProcent);
-            assertEquals(dækProcent, StyklisteController.udregnDækprocent(540,540, connectionPool));
+        double dækProcent = salgsPris / kostPris * 100 - 100;
+        System.out.println(salgsPris);
+        assertEquals(dækProcent, StyklisteController.udregnDækprocent(540,540, connectionPool));
     }
 
 }
