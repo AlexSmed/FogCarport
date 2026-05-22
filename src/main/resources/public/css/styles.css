@@ -237,7 +237,7 @@ button:hover {
     max-width: 500px;
 
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Overskrift */
@@ -303,8 +303,8 @@ button:hover {
     height: 40px;
     font-size: 24px;
     display: flex;
-    align-items: center;      /* centrer vertikalt */
-    justify-content: center;  /* centrer horisontalt */
+    align-items: center; /* centrer vertikalt */
+    justify-content: center; /* centrer horisontalt */
     border-radius: 8px;
     background-color: #007bff;
     color: white;
