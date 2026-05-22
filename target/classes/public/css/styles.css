@@ -44,25 +44,13 @@ header {
 
 /* MENU */
 .menu {
-    width: 88%;
-    margin: 0 auto;
-    list-style: none;
-    border-bottom: 1px solid #777;
-    padding-bottom: 10px;
-
-    display: flex;
-    justify-content: flex-end;
-}
-
-.left {
     display: flex;
     gap: 20px;
-}
 
-.menu li {
     list-style: none;
     margin: 0;
     padding: 0;
+
     align-items: center;
 }
 
