@@ -39,13 +39,13 @@
     <th:block th:each="materialer : ${materialer}">
         <tr>
             <td th:text="${materialer.navn}"></td>
-            <td th:text="${materialer.beskrivelse}"></td>
-            <td th:text="${materialer.hjaelpeTekst}"></td>
+            <td th:text="${materialer.vare_beskrivelse}"></td>
+            <td th:text="${materialer.hjaelpe_tekst}"></td>
             <td th:text="${materialer.laengde}"></td>
             <td th:text="${materialer.bredde}"></td>
             <td th:text="${materialer.hoejde}"></td>
-            <td th:text="${materialer.kostpris}"></td>
-            <td th:text="${materialer.salgspris}"></td>
+            <td th:text="${materialer.kost_pris}"></td>
+            <td th:text="${materialer.salgs_pris}"></td>
         </tr>
     </th:block>
 
@@ -59,7 +59,8 @@
             <td><input type="number" name="hoejde" placeholder="Højde"></td>
             <td><input type="number" name="kostpris" placeholder="Kostpris"></td>
             <td><input type="number" name="salgspris" placeholder="Salgspris"></td>
-            <td><button type="submit">Gem</button>
+            <td>
+                <button type="submit">Gem</button>
             </td>
 
         </form>
