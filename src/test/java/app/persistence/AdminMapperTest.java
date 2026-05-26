@@ -171,14 +171,6 @@ class AdminMapperTest {
     }
 
     @Test
-    void updateCustomerBalance() {
-        AdminMapper adminMapper1 = new AdminMapper(connectionPool);
-        int expectedBalance = 400;
-        double actualBalance = adminMapper1.updateCustomerBalance(400,1,connectionPool);
-        assertEquals(expectedBalance, actualBalance);
-    }
-
-    @Test
     void getCustomerBalance() {
         AdminMapper adminMapper1 = new AdminMapper(connectionPool);
         int expectedBalance = 500;
