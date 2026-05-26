@@ -1,0 +1,230 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class AdminController{
++ void addRoutes(Javalin app, ConnectionPool connectionPool)
++ void showAllCarports(Context ctx, ConnectionPool connectionPool)
++ void getAllCarportsWithUnpaidStatus(Context ctx, ConnectionPool connectionPool)
++ void getAllCustomers(Context ctx, ConnectionPool connectionPool)
++ void updateCustomerBalance(Context ctx, ConnectionPool connectionPool)
++ void alleMaterialer(Context ctx, ConnectionPool connectionPool)
++ tilfoejNyMateriale(Context ctx, ConnectionPool connectionPool)
+}
+class CarportController{
++ void addRoutes(Javalin app, ConnectionPool connectionPool)
++ static void orderCarport(Context ctx, ConnectionPool connectionPool)
++ static void getCustomeOrders(Context ctx, ConnectionPool connectionPool)
++ static void updateStatus(Context ctx, ConnectionPool connectionPool)
++ static void seStykliste(Context ctx, ConnectionPool connectionPool)
++ static void showOrder(Context ctx, ConnectionPool connectionPool)
+}
+class OrderlinjeController{
++static void createOrdrelinje(int stykliste_id, ConnectionPool connectionPool, Context ctx)
+}
+class StyklisteController{
+- String USER
+- String PASSWORD
+- String URL
+- String DB
+- static Connectionpool connectionPool
++ static int antalStolper(int lengthInCm)
++ static int antalSpær(int widthInCm)
++ static ArrayList<Integer> laengdenAfRem(int lengthInCm)
++ static Materiale udregningAfStolper(int lengthInCm, ConnectionPool connectionPool)
++ static ArrayList<Materiale> udregningAfSpær(int widthInCm, ConnectionPool connectionPool)
++ static ArrayList<Materiale> udregningAfRem(int lengthInCm, ConnectionPool connectionPool)
++ static double udregningAfDækprocent(int lengthInCm, int widthInCm, ConnectionPool connectionPool)
++ static ArrayList<Materiale> styklisteMaterialer(int lengthInCm, int widthInCm, ConnectionPool connectionPool)
+}
+
+class UserController{
++ static void addRoutes(Javalin app, ConnectionPool connectionPool)
++ static void createAccount(Context ctx, ConnectionPool connectionPool)
++ static void login(Context ctx, ConnectionPool connectionPool)
++ static void logout(Context ctx, ConnectionPool connectionPool)
++ static String validateUser(String firstname, String lastname, String email, String password)
+}
+
+class Carport{
+  - int carport_id;
+  - int carport_bredde;
+  - int carport_laengde;
+  -  double pris;
+  - String status;
+  - int stykliste_id;
+  - int bruger_id;
+   + Carport(int carport_id, int carport_bredde, int carport_laengde, double pris, String status, int bruger_id, int stykliste_id)
+   + Carport(int carport_id, int carport_bredde, int carport_laengde, double pris, String status, int stykliste_id)
+}
+class CarportSvg{
+ - int width
+ - int length
+ - Svg carportSvg
+ + CarportSvg(int width, int length)
+ - void addBeams()
+ - void addRafters()
+}
+class Materiale{
+ - int vareNummer
+ - String navn
+ - String vare_beskrivelse
+ - String hjaelpe_tekst
+ - int laengde
+ - int antal
+ - double kost_pris
+ + Materiale()
+ + Materiale(int vareNummer, String navn, String vare_beskrivelse, String hjaelpe_tekst,
+                  int laengde, int bredde, int hoejde, double kost_pris, double salgs_pris, int antal)
+ + Materiale(String navn, String vare_beskrivelse, String hjaelpe_tekst, int laengde, int bredde, int hoejde, double kost_pris, double salgs_pris)
+}
+class Orderlinje{
+ - int orderlinje_id
+ - int stykliste_id
+ - int vare_nummer
+ - int antal
+ - Materiale materiale
+ + Orderlinje(int orderlinje_id, int stykliste_id, int vare_nummer, int antal, Materiale materiale)
+ + Orderlinje(int orderlinje_id, int stykliste_id, int vare_nummer, int antal)
+}
+class Stykliste{
+ - int styklist_id
+ - int bruger_id
+ ArrayList<Materiale> materialer
+ + Stykliste(int styklist_id,int bruger_id, ArrayList<Materiale> materialer)
+ + Stykliste(int styklist_id,int bruger_id)
+}
+class Svg{
+- static final String SVG_TEMPLATE
+- static final String SVG_ARROW_DEFS
+- static final String SVG_RECT_TEMPLATE
+- static final String SVG_LINE_TEMPLATE
+- static final String SVG_TEXT_TEMPLATE
+- StringBuilder svg
++ Svg(int x, int y, String viewBox, String width)
++ void addRectangle(double x, double y, double height, double width, String style)
++ void addLine(int x1, int y1, int x2, int y2, String style)
++ void addArrow(int x1, int y1, int x2, int y2, String style)
++ void addText(int x, int y, int rotation, String text)
++ void addSvg(Svg innerSvg)
+}
+class Users{
+ - String fornavn
+ - String efternavn
+ - String email
+ - String kodeord
+ - int bruger_id
+ - double saldo
+ - boolean er_admin
+ - String addresse
+ + Users(String firstname, String efternavn, String email, String password, int bruger_id, double saldo, boolean er_admin)
+ + Users(int bruger_id, String fornavn, String efternavn, String email, double saldo)
+
+}
+class AdminMapper{
+ ConnectionPool connectionPool;
+ + AdminMapper(ConnectionPool connectionPool)
+ + static List<Carport> getAllCarports(ConnectionPool connectionPool)
+ + static List<Carport> getAllCarportsWithUnpaidStatus(ConnectionPool connectionPool)
+ + List<Users> getAllCustomers(ConnectionPool connectionPool)
+ + void updateCustomerBalance(double saldo, int brugerId, ConnectionPool connectionPool)
+ + int getCustomerBalance(int brugerId, ConnectionPool connectionPool)
+ + List seAlleMaterialer(ConnectionPool connectionPool)
+ + Materiale tilfoejNyMateriale(String navn, String beskrivelse, String hjaelpeTekst, int laengde, int bredde, int hoejde, double kostpris, double salgspris, ConnectionPool connectionPool)
+
+}
+class CarportMapper{
+ - static ConnectionPool connectionPool
+ + CarportMapper(ConnectionPool connectionPool)
+ + static void createCarport(int carport_bredde, int carport_laengde, double pris, String status, int bruger_id, int stykliste_id, ConnectionPool connectionPool)
+ + static List<Carport> getAllOrdersByUserId(int brugerId, app.persistence.ConnectionPool connectionPool)
+ + static void updateStatus(int carportId, app.persistence.ConnectionPool connectionPool)
+
+}
+class OrderlinjeMapper{
+ + static List<Orderlinje> getAllOrdrelinjer(ConnectionPool connectionPool)
+ + static void createOrderlinje(int stykliste_id, int vare_nummer, int antal, ConnectionPool connectionPool)
+ + static List<Orderlinje> getStykliste(int stykliste_id, ConnectionPool connectionPool)
+}
+class StyklisteMapper{
+ - String USER
+ - String PASSWORD
+ - String URL
+ - String DB
+ - static Connectionpool connectionPool
+ + static List<Stykliste> getStyklist(int bruger_id,ConnectionPool connectionPool)
+ + static int getKost_pris(int vareNummer, ConnectionPool connectionPool)
+ + static Materiale getMaterialeFromVareNummer(int vareNummer, ConnectionPool connectionPool)
+ + static int getSalgs_pris(int vareNummer, ConnectionPool connectionPool)
+ + static void createStykliste(int stykliste_id, int brugerId, ConnectionPool connectionPool)
+ + static int getHighestStyklistId()
+
+}
+class UserMapper{
+ - static ConnectionPool connectionPool
+ + static Users login(String email, String password, ConnectionPool connectionPool)
+ + static void createUser(String firstname,String lastname, String email, String password, String adresse, ConnectionPool connectionPool)
+
+}
+' =========================
+' Controller -> Mapper
+' =========================
+
+AdminController --> AdminMapper
+CarportController --> CarportMapper
+OrderlinjeController --> OrderlinjeMapper
+StyklisteController --> StyklisteMapper
+UserController --> UserMapper
+
+' =========================
+' Controller -> Model
+' =========================
+
+CarportController --> Carport
+OrderlinjeController --> Orderlinje
+StyklisteController --> Stykliste
+UserController --> Users
+
+' =========================
+' Mapper -> Model
+' =========================
+
+AdminMapper --> Carport
+AdminMapper --> Users
+AdminMapper --> Materiale
+
+CarportMapper --> Carport
+
+OrderlinjeMapper --> Orderlinje
+OrderlinjeMapper --> Materiale
+
+StyklisteMapper --> Stykliste
+StyklisteMapper --> Materiale
+
+UserMapper --> Users
+
+' =========================
+' Model relationer
+' =========================
+
+Carport --> Stykliste
+Carport --> Users
+
+Stykliste --> Materiale
+
+Orderlinje --> Materiale
+Orderlinje --> Stykliste
+
+' =========================
+' SVG relationer
+' =========================
+
+CarportSvg --> Svg
+
+' =========================
+' Multiplicities
+' =========================
+
+Users "1" --> "*" Carport
+Stykliste "1" --> "*" Materiale
+Stykliste "1" --> "*" Orderlinje
+@enduml
