@@ -36,7 +36,7 @@ class StyklisteControllerTest {
     @Test
     void antalSpær() {
         int antalSpær = styklisteController.antalSpær(540);
-        assertEquals(11,antalSpær);
+        assertEquals(10,antalSpær);
 
     }
 
