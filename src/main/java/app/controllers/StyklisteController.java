@@ -190,13 +190,13 @@ public class StyklisteController {
                     remmeMaterialer.get(i).setAntal(
                             remmeMaterialer.get(i).getAntal()
                                     + remmeMaterialer.get(j).getAntal());
-                    double nySalgsPris = remmeMaterialer.get(i).getSalgspris()
-                            + remmeMaterialer.get(j).getSalgspris();
-                    remmeMaterialer.get(i).setKostpris
+                    double nySalgsPris = remmeMaterialer.get(i).getSalgs_pris()
+                            + remmeMaterialer.get(j).getSalgs_pris();
+                    remmeMaterialer.get(i).setKost_pris
                             (nySalgsPris);
-                    double nyKostPris = remmeMaterialer.get(i).getKostpris()
-                            + remmeMaterialer.get(j).getKostpris();
-                    remmeMaterialer.get(i).setKostpris(nyKostPris);
+                    double nyKostPris = remmeMaterialer.get(i).getKost_pris()
+                            + remmeMaterialer.get(j).getKost_pris();
+                    remmeMaterialer.get(i).setKost_pris(nyKostPris);
 
                     remmeMaterialer.remove(j);
 
@@ -216,16 +216,16 @@ public class StyklisteController {
             double kostPris = 0;
             double salgsPris = 0;
             for (Materiale materiale : materiales) {
-                kostPris = materiale.getKostpris() + kostPris;
+                kostPris = materiale.getKost_pris() + kostPris;
 
-                salgsPris = materiale.getSalgspris() + salgsPris;
+                salgsPris = materiale.getSalgs_pris() + salgsPris;
             }
             salgsPris = salgsPris +
-                    StyklisteController.udregningAfStolper(540, connectionPool).getSalgspris() +
-                    StyklisteController.udregningAfSpær(540, connectionPool).getSalgspris();
+                    StyklisteController.udregningAfStolper(540, connectionPool).getSalgs_pris() +
+                    StyklisteController.udregningAfSpær(540, connectionPool).getSalgs_pris();
             kostPris = kostPris +
-                    StyklisteController.udregningAfStolper(540, connectionPool).getKostpris() +
-                    StyklisteController.udregningAfSpær(540, connectionPool).getKostpris();
+                    StyklisteController.udregningAfStolper(540, connectionPool).getKost_pris() +
+                    StyklisteController.udregningAfSpær(540, connectionPool).getKost_pris();
 
             double dækProcent = salgsPris / kostPris * 100 - 100;
 

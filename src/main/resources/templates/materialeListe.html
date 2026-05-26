@@ -9,19 +9,17 @@
 <header>
     <div class="header">
         <div class="logoplace">
-            <a th:href="@{/index}">
+            <a th:href="@{/allCarports}">
                 <img src="/img/Fog.png" class="logoSize">
             </a>
         </div>
-    </div>
 
-    <ul class="menu">
-        <div class="left">
+        <ul class="menu">
             <li><a th:href="@{/allCarports}">Se alle ordre</a></li>
             <li><a th:href="@{/showCustomers}"> Indsæt penge</a></li>
             <li><a th:href="@{/materialeListe}">Materialeliste</a></li>
-        </div>
-    </ul>
+        </ul>
+    </div>
 </header>
 
 <table class="order-table">
@@ -39,13 +37,13 @@
     <th:block th:each="materialer : ${materialer}">
         <tr>
             <td th:text="${materialer.navn}"></td>
-            <td th:text="${materialer.beskrivelse}"></td>
-            <td th:text="${materialer.hjaelpeTekst}"></td>
+            <td th:text="${materialer.vare_beskrivelse}"></td>
+            <td th:text="${materialer.hjaelpe_tekst}"></td>
             <td th:text="${materialer.laengde}"></td>
             <td th:text="${materialer.bredde}"></td>
             <td th:text="${materialer.hoejde}"></td>
-            <td th:text="${materialer.kostpris}"></td>
-            <td th:text="${materialer.salgspris}"></td>
+            <td th:text="${materialer.kost_pris}"></td>
+            <td th:text="${materialer.salgs_pris}"></td>
         </tr>
     </th:block>
 
