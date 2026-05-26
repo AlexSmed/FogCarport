@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mine ordre</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="logoplace">
+            <a th:href="@{/index}">
+                <img src="/img/Fog.png" class="logoSize">
+            </a>
+        </div>
+    </div>
+
+    <ul class="menu">
+        <div class="left">
+            <li><a th:href="@{/allCarports}">Se alle ordre</a></li>
+            <li><a th:href="@{/showCustomers}"> Indsæt penge</a></li>
+            <li><a th:href="@{/materialeListe}">Materialeliste</a></li>
+        </div>
+    </ul>
+</header>
+
+<table class="order-table">
+    <tr>
+        <th>Navn</th>
+        <th>Beskrivelse</th>
+        <th>Hjælpetekst</th>
+        <th>Længde</th>
+        <th>Bredde</th>
+        <th>Højde</th>
+        <th>Kostpris</th>
+        <th>Salgspris</th>
+    </tr>
+
+    <th:block th:each="materialer : ${materialer}">
+        <tr>
+            <td th:text="${materialer.navn}"></td>
+            <td th:text="${materialer.beskrivelse}"></td>
+            <td th:text="${materialer.hjaelpeTekst}"></td>
+            <td th:text="${materialer.laengde}"></td>
+            <td th:text="${materialer.bredde}"></td>
+            <td th:text="${materialer.hoejde}"></td>
+            <td th:text="${materialer.kostpris}"></td>
+            <td th:text="${materialer.salgspris}"></td>
+        </tr>
+    </th:block>
+
+    <tr id="nyMaterialeRække" style="display: none;">
+        <form method="post" th:action="@{/tilfoejNyMateriale}">
+            <td><input type="text" name="navn" placeholder="Navn"></td>
+            <td><input type="text" name="beskrivelse" placeholder="Beskrivelse"></td>
+            <td><input type="text" name="hjaelpeTekst" placeholder="Hjælpetekst"></td>
+            <td><input type="number" name="laengde" placeholder="Længde"></td>
+            <td><input type="number" name="bredde" placeholder="Bredde"></td>
+            <td><input type="number" name="hoejde" placeholder="Højde"></td>
+            <td><input type="number" name="kostpris" placeholder="Kostpris"></td>
+            <td><input type="number" name="salgspris" placeholder="Salgspris"></td>
+            <td>
+                <button type="submit">Gem</button>
+            </td>
+
+        </form>
+    </tr>
+    <tr>
+        <td>
+            <button id="addRowBtn" type="button">+</button>
+        </td>
+    </tr>
+</table>
+
+<script>
+    document.getElementById("addRowBtn").onclick = function () {
+        document.getElementById("nyMaterialeRække").style.display = "table-row";
+    };
+</script>
+</body>
+
+</html>

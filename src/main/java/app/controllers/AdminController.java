@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.entities.Carport;
+import app.entities.Materiale;
 import app.entities.Users;
 import app.persistence.AdminMapper;
 import app.persistence.ConnectionPool;
@@ -25,13 +26,23 @@ public class AdminController {
 
         app.post("updateBalance", ctx ->
                 AdminController.updateCustomerBalance(ctx, connectionPool));
+
+        app.get("showAllMaterials", ctx ->
+                alleMaterialer(ctx, connectionPool));
+
+        app.post("tilfoejNyMateriale", ctx ->
+                tilfoejNyMateriale(ctx, connectionPool));
+
+        app.get("/materialer", ctx -> {
+            alleMaterialer(ctx, connectionPool);
+        });
     }
 
-    static AdminMapper mapper = new AdminMapper(connectionPool);
+    static AdminMapper adminMapper = new AdminMapper(connectionPool);
 
     public static void showAllCarports(Context ctx, ConnectionPool connectionPool) {
 
-        List<Carport> carports = mapper.getAllCarports(connectionPool);
+        List<Carport> carports = adminMapper.getAllCarports(connectionPool);
 
         ctx.attribute("carports", carports);
         ctx.render("seeAllCarports.html");
@@ -39,14 +50,14 @@ public class AdminController {
 
     private static void getAllOrdersWithUnpaidStatus(Context ctx, ConnectionPool connectionPool) {
 
-        List<Carport> unpaidCarports = mapper.getAllCarportsWithUnpaidStatus(connectionPool);
+        List<Carport> unpaidCarports = adminMapper.getAllCarportsWithUnpaidStatus(connectionPool);
 
         ctx.attribute("carports", unpaidCarports);
         ctx.render("seeAllCarports.html");
     }
 
     private static void getAllCustomers(Context ctx, ConnectionPool connectionPool) {
-        List<Users> allCustomers = mapper.getAllCustomers(connectionPool);
+        List<Users> allCustomers = adminMapper.getAllCustomers(connectionPool);
 
         ctx.attribute("customers", allCustomers);
         ctx.render("seeAllCustomers.html");
@@ -57,15 +68,35 @@ public class AdminController {
         int saldo = Integer.parseInt(ctx.formParam("amount"));
         int brugerId = Integer.parseInt(ctx.formParam("brugerId"));
 
-        AdminMapper mapper = new AdminMapper(connectionPool);
-
-        int currentBalance = mapper.getCustomerBalance(brugerId, connectionPool);
+        int currentBalance = adminMapper.getCustomerBalance(brugerId, connectionPool);
 
         int newBalance = currentBalance + saldo;
 
-        mapper.updateCustomerBalance(newBalance, brugerId, connectionPool);
+        adminMapper.updateCustomerBalance(newBalance, brugerId, connectionPool);
 
         ctx.redirect("/showCustomers");
     }
 
+    public static void alleMaterialer(Context ctx, ConnectionPool connectionPool){
+        List<Materiale> alleMaterialer = adminMapper.seAlleMaterialer(connectionPool);
+
+        ctx.attribute("materialer", alleMaterialer);
+        ctx.render("materialeListe.html");
+    }
+
+    public static void tilfoejNyMateriale(Context ctx, ConnectionPool connectionPool){
+        String navn = ctx.formParam("navn");
+        String beskrivelse = ctx.formParam("beskrivelse");
+        String hjaelpeTekst = ctx.formParam("hjaelpeTekst");
+        int laengde = Integer.parseInt(ctx.formParam("laengde"));
+        int bredde = Integer.parseInt(ctx.formParam("bredde"));
+        int hoejde = Integer.parseInt(ctx.formParam("hoejde"));
+        double kostpris = Double.parseDouble(ctx.formParam("kostpris"));
+        double salgspris = Double.parseDouble(ctx.formParam("salgspris"));
+
+        adminMapper.tilfoejNyMateriale(navn, beskrivelse, hjaelpeTekst, laengde, bredde, hoejde, kostpris, salgspris, connectionPool);
+        ctx.redirect("/materialer");
+
+    }
 }
+

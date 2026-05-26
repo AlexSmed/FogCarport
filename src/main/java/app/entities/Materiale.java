@@ -44,6 +44,18 @@ public class Materiale {
         this.salgs_pris = salgs_pris;
 
     }
+
+    public Materiale(String navn, String vare_beskrivelse, String hjaelpe_tekst, int laengde, int bredde, int hoejde, double kost_pris, double salgs_pris) {
+        this.navn = navn;
+        this.vare_beskrivelse = vare_beskrivelse;
+        this.hjaelpe_tekst = hjaelpe_tekst;
+        this.laengde = laengde;
+        this.bredde = bredde;
+        this.hoejde = hoejde;
+        this.kost_pris = kost_pris;
+        this.salgs_pris = salgs_pris;
+    }
+
     public int getAntal(){
         return antal;
     }
