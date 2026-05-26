@@ -104,7 +104,7 @@ public class CarportController {
     {
         Integer width = ctx.sessionAttribute("width");
         Integer length = ctx.sessionAttribute("length");
-        System.out.println(length);
+
 
 
         Locale.setDefault(new Locale("US"));
