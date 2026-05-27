@@ -32,31 +32,45 @@ public class CarportController {
 
     public static void orderCarport(Context ctx, ConnectionPool connectionPool){
 
+
       try {
-          int width = Integer.parseInt(ctx.formParam("width"));
-          int length = Integer.parseInt(ctx.formParam("length"));
+
+          Integer width = Integer.parseInt(ctx.formParam("width"));
+          Integer length = Integer.parseInt(ctx.formParam("length"));
+
+
           double pris = 0;
           String status = "forspørglse afsendt";
           Users user = ctx.sessionAttribute("currentUser");
           int bruger_id = user.getBruger_id();
           int stykliste_id = StyklisteMapper.getHighestStyklistId()+1;
           StyklisteMapper.createStykliste(stykliste_id, bruger_id, connectionPool);
-          ArrayList<Materiale> materialerIOrderen = StyklisteController.stykListeMaterialer(length, width, connectionPool);
+          ArrayList<Materiale> materialerIOrderen =
+                  StyklisteController.stykListeMaterialer(length, width, connectionPool);
           for(Materiale materiale : materialerIOrderen){
               pris = pris + materiale.getSalgs_pris() * materiale.getAntal();
-              OrderlinjeMapper.createOrderlinje(stykliste_id, materiale.getVareNummer(), materiale.getAntal(), connectionPool);
+              OrderlinjeMapper.createOrderlinje
+                      (stykliste_id, materiale.getVareNummer(), materiale.getAntal(), connectionPool);
           }
 
 
           CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
+
           ctx.sessionAttribute("width", width);
           ctx.sessionAttribute("length", length);
+
           ctx.attribute("successMessage", "Forespørgsel afsendt");
           ctx.render("carportSkaber");
 
       }catch (DatabaseException e) {
+
           ctx.result("Fejl: " + e.getMessage());
         }
+      catch (Exception e){
+          ctx.status(400).result("Missing session data");
+          ctx.redirect("/carportSkaber");
+
+      }
     }
 
 
@@ -102,21 +116,24 @@ public class CarportController {
 
     public static void showOrder(Context ctx, ConnectionPool connectionPool)
     {
-        Integer width = ctx.sessionAttribute("width");
-        Integer length = ctx.sessionAttribute("length");
-
-
-
-        Locale.setDefault(new Locale("US"));
+        try{
+            Integer width = ctx.sessionAttribute("width");
+            Integer length = ctx.sessionAttribute("length");
+            Locale.setDefault(new Locale("US"));
+            if (width == null || length == null) {
+                ctx.status(400).result("Missing session data");
+                ctx.redirect("/carportSkaber");
+            }
             CarportSvg svg = new CarportSvg(width, length);
-        if (width == null || length == null) {
-            ctx.status(400).result("Missing session data");
-            return;
+            ctx.attribute("svg", svg.toString());
+            ctx.render("showOrder.html");
         }
 
-        ctx.attribute("svg", svg.toString());
-        ctx.render("showOrder.html");
+         catch (Exception e){
+        ctx.status(400).result("Missing session data");
+        ctx.redirect("/carportSkaber");
     }
+        }
 
     }
 
