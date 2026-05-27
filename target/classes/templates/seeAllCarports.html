@@ -11,27 +11,28 @@
 <header>
     <div class="header">
         <div class="logoplace">
-            <a th:href="@{/index}">
+            <a th:href="@{/allCarports}">
                 <img src="/img/Fog.png" class="logoSize">
             </a>
         </div>
-    </div>
 
-    <ul class="menu">
-        <div class="left">
+        <ul class="menu">
             <li><a th:href="@{/allCarports}">Se alle ordre</a></li>
             <li><a th:href="@{/showCustomers}"> Indsæt penge</a></li>
             <li><a th:href="@{/showAllMaterials}">Materialeliste</a></li>
-        </div>
-    </ul>
-</header>
-
-<ul class="menu">
-    <div class="left">
-        <li><a th:href="@{/allCarports}">Alle ordre</a></li>
-        <li><a th:href="@{/unpaidCarports}">Ubetalte ordre</a></li>
+        </ul>
     </div>
-</ul>
+
+
+</header>
+<header>
+    <div class="header">
+        <ul class="menu right-menu">
+            <li><a th:href="@{/allCarports}">Alle ordre</a></li>
+            <li><a th:href="@{/unpaidCarports}">Ubetalte ordre</a></li>
+        </ul>
+    </div>
+</header>
 
 <table class="order-table">
     <tr>
