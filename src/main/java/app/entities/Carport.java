@@ -64,9 +64,6 @@ public class Carport {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public int getStykliste_id() {
         return stykliste_id;

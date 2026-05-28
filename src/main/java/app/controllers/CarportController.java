@@ -6,15 +6,13 @@ import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderlinjeMapper;
 import app.persistence.StyklisteMapper;
+import app.services.StyklisteUdregner;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class CarportController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
@@ -46,7 +44,7 @@ public class CarportController {
           int stykliste_id = StyklisteMapper.getHighestStyklistId()+1;
           StyklisteMapper.createStykliste(stykliste_id, bruger_id, connectionPool);
           ArrayList<Materiale> materialerIOrderen =
-                  StyklisteController.stykListeMaterialer(length, width, connectionPool);
+                  StyklisteUdregner.stykListeMaterialer(length, width, connectionPool);
           for(Materiale materiale : materialerIOrderen){
               pris = pris + materiale.getSalgs_pris() * materiale.getAntal();
               OrderlinjeMapper.createOrderlinje
