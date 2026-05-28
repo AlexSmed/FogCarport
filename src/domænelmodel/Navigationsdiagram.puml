@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+
+State index
+State opretBruger
+State opretForespørgsel
+State seKundeOrdre
+State seTegning
+State seStykliste
+
+State adminForside
+State seAlleOrdre
+State seAlleKunder
+State seAlleMaterialer
+
+[*] -> index
+index -> opretBruger
+opretBruger -> index
+
+index --> opretForespørgsel: hvis kunde
+index --> adminForside: hvis admin
+
+adminForside --> seAlleOrdre
+adminForside --> seAlleKunder
+adminForside --> seAlleMaterialer
+
+opretForespørgsel --> seTegning
+opretForespørgsel --> seKundeOrdre
+seKundeOrdre -> seStykliste: ordre betalt
+
+
+
+
+
+
+@enduml
