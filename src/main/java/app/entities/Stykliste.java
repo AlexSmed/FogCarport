@@ -22,9 +22,6 @@ public class Stykliste {
         return styklist_id;
     }
 
-    public void setStyklist_id(int styklist_id) {
-        this.styklist_id = styklist_id;
-    }
 
     public int getBruger_id() {
         return bruger_id;

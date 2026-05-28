@@ -67,10 +67,6 @@ public class Materiale {
         return vareNummer;
     }
 
-    public void setVareNummer(int vareNummer) {
-        this.vareNummer = vareNummer;
-    }
-
     public String getNavn() {
         return navn;
     }
@@ -83,16 +79,8 @@ public class Materiale {
         return vare_beskrivelse;
     }
 
-    public void setVare_beskrivelse(String vare_beskrivelse) {
-        this.vare_beskrivelse = vare_beskrivelse;
-    }
-
     public String getHjaelpe_tekst() {
         return hjaelpe_tekst;
-    }
-
-    public void setHjaelpe_tekst(String hjaelpe_tekst) {
-        this.hjaelpe_tekst = hjaelpe_tekst;
     }
 
     public int getLaengde() {
@@ -111,13 +99,6 @@ public class Materiale {
         this.bredde = bredde;
     }
 
-    public int getHoejde() {
-        return hoejde;
-    }
-
-    public void setHoejde(int hoejde) {
-        this.hoejde = hoejde;
-    }
 
     public double getKost_pris() {
         return kost_pris;
@@ -129,10 +110,6 @@ public class Materiale {
 
     public double getSalgs_pris() {
         return salgs_pris;
-    }
-
-    public void setSalgs_pris(double salgs_pris) {
-        this.salgs_pris = salgs_pris;
     }
 
     private int bredde;

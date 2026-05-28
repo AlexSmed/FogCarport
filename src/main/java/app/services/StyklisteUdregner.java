@@ -1,4 +1,4 @@
-package app.controllers;
+package app.services;
 
 import app.entities.Materiale;
 import app.exception.DatabaseException;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 
-public class StyklisteController {
+public class StyklisteUdregner {
     private final static String USER = "postgres";
     private final static String PASSWORD = "postgres";
     private final static String URL = "jdbc:postgresql://localhost:5432/Fog?currentSchema=public";
@@ -20,7 +20,7 @@ public class StyklisteController {
 
     public static int antalStolper(int lengthInCm) {
         int antalStolper = 0;
-        if (lengthInCm < 430) {
+        if (lengthInCm <= 450) {
             antalStolper = 4;
         } else {
             antalStolper = 6;
@@ -221,11 +221,11 @@ public class StyklisteController {
                 salgsPris = materiale.getSalgs_pris() + salgsPris;
             }
             salgsPris = salgsPris +
-                    StyklisteController.udregningAfStolper(540, connectionPool).getSalgs_pris() +
-                    StyklisteController.udregningAfSpær(540, connectionPool).getSalgs_pris();
+                    StyklisteUdregner.udregningAfStolper(540, connectionPool).getSalgs_pris() +
+                    StyklisteUdregner.udregningAfSpær(540, connectionPool).getSalgs_pris();
             kostPris = kostPris +
-                    StyklisteController.udregningAfStolper(540, connectionPool).getKost_pris() +
-                    StyklisteController.udregningAfSpær(540, connectionPool).getKost_pris();
+                    StyklisteUdregner.udregningAfStolper(540, connectionPool).getKost_pris() +
+                    StyklisteUdregner.udregningAfSpær(540, connectionPool).getKost_pris();
 
             double dækProcent = salgsPris / kostPris * 100 - 100;
 

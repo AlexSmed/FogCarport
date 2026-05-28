@@ -27,9 +27,6 @@ public class Orderlinje {
         return orderlinje_id;
     }
 
-    public void setOrderlinje_id(int orderlinje_id) {
-        this.orderlinje_id = orderlinje_id;
-    }
 
     public int getStykliste_id() {
         return stykliste_id;
@@ -43,16 +40,9 @@ public class Orderlinje {
         return vare_nummer;
     }
 
-    public void setVare_nummer(int vare_nummer) {
-        this.vare_nummer = vare_nummer;
-    }
 
     public int getAntal() {
         return antal;
-    }
-
-    public void setAntal(int antal) {
-        this.antal = antal;
     }
 
     public Materiale getMateriale() {
