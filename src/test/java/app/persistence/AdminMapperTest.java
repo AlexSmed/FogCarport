@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Carport;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -176,5 +179,15 @@ class AdminMapperTest {
         int expectedBalance = 500;
         double actualBalance = adminMapper1.getCustomerBalance(1,connectionPool);
         assertEquals(expectedBalance, actualBalance);
+    }
+    @Test
+    void getAllCarports() {
+        List<Carport> carports = new ArrayList<>();
+
+        carports = AdminMapper.getAllCarports(connectionPool);
+
+        assertEquals(1, carports.size());
+
+        assertEquals(600, carports.get(0).getCarport_bredde());
     }
 }
