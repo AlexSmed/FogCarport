@@ -25,10 +25,12 @@ index --> adminForside: hvis admin
 adminForside --> seAlleOrdre
 adminForside --> seAlleKunder
 adminForside --> seAlleMaterialer
+seAlleOrdre --> seUbetalteOrdre
+seAlleMaterialer --> tilføjMateriale
 
 opretForespørgsel --> seTegning
 opretForespørgsel --> seKundeOrdre
-seKundeOrdre -> seStykliste: ordre betalt
+seKundeOrdre --> seStykliste: ordre betalt
 
 
 
