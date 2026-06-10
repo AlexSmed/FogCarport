@@ -29,9 +29,10 @@ public class Main {
         }).start(7070);
 
         // Routing
+        CarportController carportController = new CarportController(connectionPool);
         app.get("/", ctx -> ctx.render("index.html"));
         UserController.addRoutes(app, connectionPool);
-        CarportController.addRoutes(app, connectionPool);
+        carportController.addRoutes(app, connectionPool);
         AdminController.addRoutes(app, connectionPool);
 
     }

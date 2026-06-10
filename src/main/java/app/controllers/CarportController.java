@@ -9,13 +9,29 @@ import app.persistence.StyklisteMapper;
 import app.services.StyklisteUdregner;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import org.eclipse.jetty.server.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class CarportController {
-    public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+
+    private final StyklisteMapper styklisteMapper;
+    private final StyklisteUdregner styklisteUdregner;
+    private final OrderlinjeMapper orderlinjeMapper;
+    private final CarportMapper carportMapper;
+    private final ConnectionPool connectionPool;
+
+
+    public CarportController(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+        this.styklisteMapper = new StyklisteMapper();
+        this.styklisteUdregner = new StyklisteUdregner();
+        this.orderlinjeMapper = new OrderlinjeMapper();
+        this.carportMapper = new CarportMapper(connectionPool);
+    }
+    public void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/carportSkaber", ctx -> ctx.render("carportSkaber.html"));
 
         app.post("/order", ctx -> orderCarport(ctx, connectionPool));
@@ -23,36 +39,35 @@ public class CarportController {
         app.post("/payOrder", ctx -> updateStatus(ctx, connectionPool));
         app.get("/seStykliste", ctx -> seStykliste(ctx, connectionPool));
         app.post("/seStykliste", ctx -> seStykliste(ctx, connectionPool));
-        app.get("/showOrder", ctx -> CarportController.showOrder(ctx, connectionPool));
+        app.get("/showOrder", ctx -> showOrder(ctx, connectionPool));
 
 
     }
 
-    public static void orderCarport(Context ctx, ConnectionPool connectionPool){
-
+    public void orderCarport(Context ctx, ConnectionPool connectionPool){
 
       try {
 
           Integer width = Integer.parseInt(ctx.formParam("width"));
           Integer length = Integer.parseInt(ctx.formParam("length"));
-
-
           double pris = 0;
+
           String status = "forspørglse afsendt";
           Users user = ctx.sessionAttribute("currentUser");
           int bruger_id = user.getBruger_id();
-          int stykliste_id = StyklisteMapper.getHighestStyklistId()+1;
-          StyklisteMapper.createStykliste(stykliste_id, bruger_id, connectionPool);
+          int stykliste_id = styklisteMapper.getHighestStyklistId()+1;
+
+          styklisteMapper.createStykliste(stykliste_id, bruger_id, connectionPool);
           ArrayList<Materiale> materialerIOrderen =
-                  StyklisteUdregner.stykListeMaterialer(length, width, connectionPool);
+                  styklisteUdregner.stykListeMaterialer(length, width, connectionPool);
           for(Materiale materiale : materialerIOrderen){
               pris = pris + materiale.getSalgs_pris() * materiale.getAntal();
-              OrderlinjeMapper.createOrderlinje
+              orderlinjeMapper.createOrderlinje
                       (stykliste_id, materiale.getVareNummer(), materiale.getAntal(), connectionPool);
           }
 
 
-          CarportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
+          carportMapper.createCarport(width, length, pris, status, bruger_id, stykliste_id, connectionPool);
 
           ctx.sessionAttribute("width", width);
           ctx.sessionAttribute("length", length);
@@ -74,7 +89,7 @@ public class CarportController {
 
 
 
-    public static void getCustomeOrders(Context ctx, ConnectionPool connectionPool){
+    public  void getCustomeOrders(Context ctx, ConnectionPool connectionPool){
         int brugerId = ctx.sessionAttribute("bruger_id");
 
         List<Carport> myOrders= CarportMapper.getAllOrdersByUserId(brugerId, connectionPool);
@@ -93,7 +108,7 @@ public class CarportController {
         ctx.redirect("/myOrders");
     }
 
-    public static void seStykliste(Context ctx, ConnectionPool connectionPool) {
+    public void seStykliste(Context ctx, ConnectionPool connectionPool) {
 
         String param = ctx.queryParam("stykliste_id");
 
@@ -112,7 +127,7 @@ public class CarportController {
         ctx.render("stykliste.html");
     }
 
-    public static void showOrder(Context ctx, ConnectionPool connectionPool)
+    public  void showOrder(Context ctx, ConnectionPool connectionPool)
     {
         try{
             Integer width = ctx.sessionAttribute("width");
